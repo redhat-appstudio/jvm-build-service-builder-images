@@ -9,7 +9,7 @@ generate () {
   export BASE_IMAGE=registry.access.redhat.com/ubi8/openjdk-$JAVA
   mkdir -p $DIR/$IMAGE_NAME
   #deal with gradle
-  gradle=`yq .data.\"builder-image.jdk$JAVA.tags\" $DIR/../deploy/base/system-config.yaml | grep -o -E  "gradle:.*,?" | cut -d : -f 2`
+  gradle=`yq .data.\"builder-image.jdk$JAVA.tags\" $DIR/image-config.yaml | grep -o -E  "gradle:.*,?" | cut -d : -f 2`
   echo $gradle
   export GRADLE_STRING=""
   for i in ${gradle//;/ }
@@ -19,11 +19,11 @@ generate () {
       res=`envsubst '$GRADLE_DOWNLOAD_SHA256,$GRADLE_VERSION' < $DIR/gradle.template`
       export GRADLE_STRING="$GRADLE_STRING $res"
   done
-  export GRADLE_STRING="$GRADLE_STRING true"
+  export GRADLE_STRING="$GRADLE_STRING"
 
   envsubst '$IMAGE_NAME,$BASE_IMAGE,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$GRADLE_STRING' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
-  envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/push.yaml > $DIR/../.tekton/$IMAGE_NAME-push.yaml
-  envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/pull-request.yaml > $DIR/../.tekton/$IMAGE_NAME-pull-request.yaml
+  envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/push.yaml > $DIR/.tekton/$IMAGE_NAME-push.yaml
+  envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/pull-request.yaml > $DIR/.tekton/$IMAGE_NAME-pull-request.yaml
 }
 
 export MAVEN_VERSION=3.8.6
