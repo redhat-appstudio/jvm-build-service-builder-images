@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: jvm-build-$IMAGE_NAME-on-pull-request
+  name: builder-definitions-jvm-$IMAGE_NAME-on-pull-request
   annotations:
     pipelinesascode.tekton.dev/on-event: "[pull_request]"
     pipelinesascode.tekton.dev/on-target-branch: "[main]"
