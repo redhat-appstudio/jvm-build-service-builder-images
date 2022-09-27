@@ -1,13 +1,15 @@
----
-apiVersion: v1
-kind: ConfigMap
+apiVersion: jvmbuildservice.io/v1alpha1
+kind: SystemConfig
 metadata:
-  name: jvm-build-system-config
-  namespace: jvm-build-service
-data:
+  name: cluster
+spec:
   #This is used to drive the builder image build
   #Versions places here for gradle will be used generate the relevant dockerfiles
   #after you run generate.sh
-  builder-image.jdk8.tags: jdk:8,maven:3.8,gradle:7.4.2;6.9.2;5.6.4;4.10.3
-  builder-image.jdk11.tags: jdk:11,maven:3.8,gradle:7.4.2;6.9.2;5.6.4;4.10.3
-  builder-image.jdk17.tags: jdk:17,maven:3.8,gradle:7.4.2;6.9.2
+  builders:
+    jdk8:
+      tag: jdk:8,maven:3.8,gradle:7.4.2;6.9.2;5.6.4;4.10.3
+    jdk11:
+      tag: jdk:11,maven:3.8,gradle:7.4.2;6.9.2;5.6.4;4.10.3
+    jdk17:
+      tag: jdk:17,maven:3.8,gradle:7.4.2;6.9.2

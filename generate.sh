@@ -9,7 +9,7 @@ generate () {
   export BASE_IMAGE=registry.access.redhat.com/ubi8/openjdk-$JAVA
   mkdir -p $DIR/$IMAGE_NAME
   #deal with gradle
-  gradle=`yq .data.\"builder-image.jdk$JAVA.tags\" $DIR/image-config.yaml | grep -o -E  "gradle:.*,?" | cut -d : -f 2`
+  gradle=`yq .spec.builders.jdk$JAVA.tag $DIR/image-config.yaml | grep -o -E  "gradle:.*,?" | cut -d : -f 2`
   echo $gradle
   export GRADLE_STRING=""
   for i in ${gradle//;/ }
