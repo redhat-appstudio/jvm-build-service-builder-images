@@ -60,7 +60,18 @@ RUN set -o errexit -o nounset \
 
 RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
-         && echo "Downloading Gradle 7.4.2" \
+    && mkdir /opt/sbt \
+         && echo "Downloading SBT 1.8.0" \
+    && wget --no-verbose --output-document=sbt.zip "https://github.com/sbt/sbt/releases/download/v1.8.0/sbt-1.8.0.zip" \
+    \
+    && echo "Checking download hash 1.8.0" \
+    && echo "fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae805897 *sbt.zip" | sha256sum --check - \
+    \
+    && echo "Installing SBT 1.8.0" \
+    && unzip sbt.zip \
+    && rm sbt.zip \
+    && mv "sbt" "/opt/sbt/1.8.0/" \
+    && export SBT_HOME=/opt/sbt/1.8.0     && echo "Downloading Gradle 7.4.2" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.4.2-bin.zip" \
     \
     && echo "Checking download hash 7.4.2" \
