@@ -60,7 +60,8 @@ RUN set -o errexit -o nounset \
 
 RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
-    $GRADLE_STRING
+    && mkdir /opt/sbt \
+    $TOOL_STRING
 
 LABEL \
     io.cekit.version="4.1.0" \
