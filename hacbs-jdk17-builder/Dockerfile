@@ -10,11 +10,11 @@ ENV \
     MAVEN_VERSION="3.8.6" \
     GRADLE_OPTS="-Dorg.gradle.daemon=false" \
     GRADLE_MANIPULATOR_HOME="/usr/share/gradle-manipulator" \
-    GRADLE_MANIPULATOR_VERSION="3.9" \
+    GRADLE_MANIPULATOR_VERSION="3.11" \
     HOME="/home/hacbs" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
-    CLI_JAR_DOWNLOAD_SHA256=7ad36fd02917035c5ac8809c2511168dcfd8ca1bb4ac3f84a744651badd1ff2c \
-    ANALYZER_INIT_DOWNLOAD_SHA256=116bd15213f5a949fcf84f99605a5e947615ee8d3f9faa0cf0a4bb1dd95c944e \
+    CLI_JAR_DOWNLOAD_SHA256=cbd2cf43ea34953f9a98f85639a4a25d2fd8827dcb9f1039dc7c48233698ada5 \
+    ANALYZER_INIT_DOWNLOAD_SHA256=7d1be22c516e24a67d8c6f3a1e7f949a5d5d8245e918458cae1e20c4226a1acf \
     PATH="$PATH:$JAVA_HOME/bin" \
     BASE_URL=https://apache.osuosl.org/maven/maven-3/3.8.6/binaries \
     MAVEN_SHA=f790857f3b1f90ae8d16281f902c689e4f136ebe584aba45e4b1fa66c80cba826d3e0e52fdd04ed44b4c66f6d3fe3584a057c26dfcac544a60b301e6d0f91c26
@@ -39,8 +39,8 @@ RUN rm /usr/bin/mvn && mkdir -p /usr/share/maven/ref && curl -fsSL -o /tmp/apach
 
 RUN set -o errexit -o nounset \
     && echo "Downloading Gradle Manipulator" \
-    && wget --no-verbose --output-document=cli.jar "https://repo1.maven.org/maven2/org/jboss/gm/cli/3.9/cli-3.9.jar" \
-    && wget --no-verbose --output-document=analyzer-init.gradle "https://repo1.maven.org/maven2/org/jboss/gm/analyzer/3.9/analyzer-3.9-init.gradle" \
+    && wget --no-verbose --output-document=cli.jar "https://repo1.maven.org/maven2/org/jboss/gm/cli/3.11/cli-3.11.jar" \
+    && wget --no-verbose --output-document=analyzer-init.gradle "https://repo1.maven.org/maven2/org/jboss/gm/analyzer/3.11/analyzer-3.11-init.gradle" \
     \
     && echo "Checking cli.jar download hash" \
     && echo "${CLI_JAR_DOWNLOAD_SHA256} *cli.jar" | sha256sum --check - \
