@@ -4,11 +4,11 @@ ENV \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en" \
     LC_ALL="en_US.UTF-8" \
-    APP_HOME="/home/hacbs" \
+    APP_HOME="/home/jboss" \
     MAVEN_HOME="/usr/share/maven" \
     MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
     MAVEN_VERSION="3.8.7" \
-    HOME="/home/hacbs" \
+    HOME="/home/jboss" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     PATH="$PATH:$JAVA_HOME/bin" \
     BASE_URL=https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries \
