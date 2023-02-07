@@ -6,7 +6,6 @@ DIR=`dirname $0`
 generate () {
 
   export IMAGE_NAME=hacbs-jdk$JAVA-builder
-  export BASE_IMAGE=registry.access.redhat.com/ubi8/openjdk-$JAVA
   mkdir -p $DIR/$IMAGE_NAME
   #deal with gradle and sbt
 
@@ -35,7 +34,7 @@ generate () {
 
   export TOOL_STRING="$TOOL_STRING"
 
-  envsubst '$IMAGE_NAME,$BASE_IMAGE,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$TOOL_STRING' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
+  envsubst '$IMAGE_NAME,$BASE_IMAGE,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$TOOL_STRING,$JAVA_PACKAGE' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
   envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/push.yaml > $DIR/.tekton/$IMAGE_NAME-push.yaml
   envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/pull-request.yaml > $DIR/.tekton/$IMAGE_NAME-pull-request.yaml
 }
@@ -55,10 +54,13 @@ export GRADLE_4_10_3=8626cbf206b4e201ade7b87779090690447054bc93f052954c78480fa6e
 export SBT_1_8_0=fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae805897
 
 export JAVA=17
+export JAVA_PACKAGE=$JAVA
 generate
 
 export JAVA=8
+export JAVA_PACKAGE=1.8.0
 generate
 
 export JAVA=11
+export JAVA_PACKAGE=$JAVA
 generate
