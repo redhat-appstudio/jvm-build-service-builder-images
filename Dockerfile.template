@@ -62,6 +62,7 @@ RUN set -o errexit -o nounset \
 RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
     && mkdir /opt/sbt \
+    && mkdir /opt/ant \
     $TOOL_STRING
 
 LABEL \

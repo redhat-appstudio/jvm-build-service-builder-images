@@ -62,7 +62,21 @@ RUN set -o errexit -o nounset \
 RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
     && mkdir /opt/sbt \
-         && echo "Downloading SBT 1.8.0" \
+    && mkdir /opt/ant \
+         && echo "Downloading Ant 1.10.13" \
+    && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org/ant/binaries/apache-ant-1.10.13-bin.zip" \
+    \
+    && echo "Checking download hash 1.10.13" \
+    && echo "800238184231f8002210fd0c75681bc20ce12f527c9b1dcb95fc8a33803bfce1 *ant.zip" | sha256sum --check - \
+    \
+    && echo "Installing Ant 1.10.13" \
+    && unzip ant.zip \
+    && rm ant.zip \
+    && mv "apache-ant-1.10.13" "/opt/ant/1.10.13/" \
+    && export ANT_HOME=/opt/ant/1.10.13 \
+    && cd $ANT_HOME \
+    && $ANT_HOME/bin/ant -f fetch.xml -Ddest=system \
+    && rm -r /root/.ant     && echo "Downloading SBT 1.8.0" \
     && wget --no-verbose --output-document=sbt.zip "https://github.com/sbt/sbt/releases/download/v1.8.0/sbt-1.8.0.zip" \
     \
     && echo "Checking download hash 1.8.0" \

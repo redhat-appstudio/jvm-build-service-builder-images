@@ -28,6 +28,23 @@ RUN microdnf --setopt=tsflags=nodocs install -y vim-filesystem
 
 RUN mkdir -p /usr/share/maven/ref && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-3.8.7-bin.tar.gz   && echo "${MAVEN_SHA}  /tmp/apache-maven.tar.gz" | sha512sum -c -   && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1   && rm -f /tmp/apache-maven.tar.gz   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
+RUN set -o errexit -o nounset \
+    && mkdir /opt/ant \
+         && echo "Downloading Ant 1.9.16" \
+    && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org/ant/binaries/apache-ant-1.9.16-bin.zip" \
+    \
+    && echo "Checking download hash 1.9.16" \
+    && echo "a815d3f323efa30db3451cc7c6d111ef343bbe2738e23161dbee1cbbeecf5b9a *ant.zip" | sha256sum --check - \
+    \
+    && echo "Installing Ant 1.9.16" \
+    && unzip ant.zip \
+    && rm ant.zip \
+    && mv "apache-ant-1.9.16" "/opt/ant/1.9.16/" \
+    && export ANT_HOME=/opt/ant/1.9.16 \
+    && cd $ANT_HOME \
+    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc jai netrexx; do $ANT_HOME/bin/ant -f fetch.xml -Ddest=system $i || echo $i failed >&2; done \
+    && rm -r /root/.ant
+
 LABEL \
     io.cekit.version="4.1.0" \
     io.k8s.description="HACBS builder image for building Java components." \

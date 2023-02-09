@@ -7,9 +7,19 @@ generate () {
 
   export IMAGE_NAME=hacbs-jdk$JAVA-builder
   mkdir -p $DIR/$IMAGE_NAME
-  #deal with gradle and sbt
+  #deal with gradle and sbt and ant
 
   export TOOL_STRING=""
+
+  ant=`yq .spec.builders.jdk$JAVA.tag $DIR/image-config.yaml | grep -o -E  "ant:.*,?" | cut -d , -f 1 | cut -d : -f 2`
+  echo ant
+  for i in ${ant//;/ }
+  do
+      export ANT_VERSION=$i
+      export ANT_DOWNLOAD_SHA256=$(name=ANT_${ANT_VERSION//./_} && echo ${!name})
+      res=`envsubst '$ANT_DOWNLOAD_SHA256,$ANT_VERSION' < $DIR/ant.template`
+      export TOOL_STRING="$TOOL_STRING $res"
+  done
 
   sbt=`yq .spec.builders.jdk$JAVA.tag $DIR/image-config.yaml | grep -o -E  "sbt:.*,?" | cut -d , -f 1 | cut -d : -f 2`
   echo sbt
@@ -52,6 +62,8 @@ export GRADLE_5_6_4=1f3067073041bc44554d0efe5d402a33bc3d3c93cc39ab684f308586d732
 export GRADLE_4_10_3=8626cbf206b4e201ade7b87779090690447054bc93f052954c78480fa6ed186e
 
 export SBT_1_8_0=fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae805897
+
+export ANT_1_10_13=800238184231f8002210fd0c75681bc20ce12f527c9b1dcb95fc8a33803bfce1
 
 export JAVA=17
 export JAVA_PACKAGE=$JAVA
