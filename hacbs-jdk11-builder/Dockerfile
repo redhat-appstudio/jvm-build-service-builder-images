@@ -35,6 +35,11 @@ RUN wget --no-verbose https://vault.centos.org/centos/8/PowerTools/x86_64/os/Pac
     && rpm -ivh ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rm ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rpm -q ninja-build
+RUN wget --no-verbose https://vault.centos.org/centos/8/AppStream/x86_64/os/Packages/git-lfs-2.11.0-2.el8.x86_64.rpm \
+    && rpm -K git-lfs-2.11.0-2.el8.x86_64.rpm \
+    && rpm -ivh git-lfs-2.11.0-2.el8.x86_64.rpm \
+    && rm git-lfs-2.11.0-2.el8.x86_64.rpm \
+    && rpm -q git-lfs
 
 RUN mkdir -p /usr/share/maven/ref && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-3.8.7-bin.tar.gz   && echo "21c2be0a180a326353e8f6d12289f74bc7cd53080305f05358936f3a1b6dd4d91203f4cc799e81761cf5c53c5bbe9dcc13bdb27ec8f57ecf21b2f9ceec3c8d27  /tmp/apache-maven.tar.gz" | sha512sum -c -   && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1   && rm -f /tmp/apache-maven.tar.gz   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
