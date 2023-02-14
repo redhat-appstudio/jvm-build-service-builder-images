@@ -11,7 +11,7 @@ ENV \
     GRADLE_OPTS="-Dorg.gradle.daemon=false" \
     GRADLE_MANIPULATOR_HOME="/usr/share/gradle-manipulator" \
     GRADLE_MANIPULATOR_VERSION="3.11" \
-    HOME="/home/jboss" \
+    HOME="/home/default" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     CLI_JAR_DOWNLOAD_SHA256=cbd2cf43ea34953f9a98f85639a4a25d2fd8827dcb9f1039dc7c48233698ada5 \
     ANALYZER_INIT_DOWNLOAD_SHA256=7d1be22c516e24a67d8c6f3a1e7f949a5d5d8245e918458cae1e20c4226a1acf \
@@ -21,6 +21,7 @@ ENV \
     JAVA_HOME="/usr/lib/jvm/java-11" \
     JAVA_VENDOR="openjdk" \
     JAVA_VERSION="11"
+RUN groupadd -r default -g 185 && useradd -u 185 -r -g root -G default -m -d /home/default -s /sbin/nologin -c "Default user" default && chmod 0770 /home/default
 
 RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname java-11-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar unzip wget which zlib-devel \
     && microdnf clean all \
