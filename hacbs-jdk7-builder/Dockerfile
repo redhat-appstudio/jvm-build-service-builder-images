@@ -10,6 +10,7 @@ ENV \
     MAVEN_VERSION="3.8.7" \
     HOME="/home/jboss" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
+    JAVA_HOME="/lib/jvm/java-1.7.0" \
     PATH="$PATH:$JAVA_HOME/bin" \
     BASE_URL=https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries \
     MAVEN_SHA=21c2be0a180a326353e8f6d12289f74bc7cd53080305f05358936f3a1b6dd4d91203f4cc799e81761cf5c53c5bbe9dcc13bdb27ec8f57ecf21b2f9ceec3c8d27
