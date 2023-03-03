@@ -43,8 +43,7 @@ RUN set -o errexit -o nounset \
     && mv "apache-ant-1.9.16" "/opt/ant/1.9.16/" \
     && export ANT_HOME=/opt/ant/1.9.16 \
     && cd $ANT_HOME \
-    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc jai netrexx; do $ANT_HOME/bin/ant -f fetch.xml -Ddest=system $i || echo $i failed >&2; done \
-    && rm -r /root/.ant
+    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do $ANT_HOME/bin/ant -f fetch.xml -Ddest=system $i; done
 
 LABEL \
     io.cekit.version="4.1.0" \
