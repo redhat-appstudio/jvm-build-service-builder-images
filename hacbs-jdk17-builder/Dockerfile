@@ -80,8 +80,7 @@ RUN set -o errexit -o nounset \
     && mv "apache-ant-1.10.13" "/opt/ant/1.10.13/" \
     && export ANT_HOME=/opt/ant/1.10.13 \
     && cd $ANT_HOME \
-    && $ANT_HOME/bin/ant -f fetch.xml -Ddest=system \
-    && rm -r /root/.ant     && echo "Downloading SBT 1.8.0" \
+    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do $ANT_HOME/bin/ant -f fetch.xml -Ddest=system $i; done     && echo "Downloading SBT 1.8.0" \
     && wget --no-verbose --output-document=sbt.zip "https://github.com/sbt/sbt/releases/download/v1.8.0/sbt-1.8.0.zip" \
     \
     && echo "Checking download hash 1.8.0" \

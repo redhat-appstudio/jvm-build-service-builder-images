@@ -10,5 +10,4 @@
     && mv "apache-ant-$ANT_VERSION" "/opt/ant/$ANT_VERSION/" \
     && export ANT_HOME=/opt/ant/$ANT_VERSION \
     && cd $ANT_HOME \
-    && $ANT_HOME/bin/ant -f fetch.xml -Ddest=system \
-    && rm -r /root/.ant
+    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do $ANT_HOME/bin/ant -f fetch.xml -Ddest=system $i; done
