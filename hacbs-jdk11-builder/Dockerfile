@@ -90,7 +90,17 @@ RUN set -o errexit -o nounset \
     && unzip sbt.zip \
     && rm sbt.zip \
     && mv "sbt" "/opt/sbt/1.8.0/" \
-    && export SBT_HOME=/opt/sbt/1.8.0     && echo "Downloading Gradle 7.4.2" \
+    && export SBT_HOME=/opt/sbt/1.8.0     && echo "Downloading Gradle 8.0.2" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.0.2-bin.zip" \
+    \
+    && echo "Checking download hash 8.0.2" \
+    && echo "ff7bf6a86f09b9b2c40bb8f48b25fc19cf2b2664fd1d220cd7ab833ec758d0d7 *gradle.zip" | sha256sum --check - \
+    \
+    && echo "Installing Gradle 8.0.2" \
+    && unzip gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-8.0.2" "/opt/gradle/8.0.2/" \
+    && export GRADLE_HOME=/opt/gradle/8.0.2; gradle-manipulator --version     && echo "Downloading Gradle 7.4.2" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.4.2-bin.zip" \
     \
     && echo "Checking download hash 7.4.2" \
