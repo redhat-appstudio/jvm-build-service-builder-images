@@ -7,7 +7,7 @@ ENV \
     APP_HOME="/home/jboss" \
     MAVEN_HOME="/usr/share/maven" \
     MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
-    MAVEN_VERSION="3.8.7" \
+    MAVEN_VERSION="3.8.8" \
     GRADLE_OPTS="-Dorg.gradle.daemon=false" \
     GRADLE_MANIPULATOR_HOME="/usr/share/gradle-manipulator" \
     GRADLE_MANIPULATOR_VERSION="3.11" \
@@ -16,8 +16,8 @@ ENV \
     CLI_JAR_DOWNLOAD_SHA256=cbd2cf43ea34953f9a98f85639a4a25d2fd8827dcb9f1039dc7c48233698ada5 \
     ANALYZER_INIT_DOWNLOAD_SHA256=7d1be22c516e24a67d8c6f3a1e7f949a5d5d8245e918458cae1e20c4226a1acf \
     PATH="$PATH:$JAVA_HOME/bin" \
-    BASE_URL=https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries \
-    MAVEN_SHA=21c2be0a180a326353e8f6d12289f74bc7cd53080305f05358936f3a1b6dd4d91203f4cc799e81761cf5c53c5bbe9dcc13bdb27ec8f57ecf21b2f9ceec3c8d27 \
+    BASE_URL=https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries \
+    MAVEN_SHA=332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00 \
     JAVA_HOME="/usr/lib/jvm/java-11" \
     JAVA_VENDOR="openjdk" \
     JAVA_VERSION="11"
@@ -41,7 +41,7 @@ RUN wget --no-verbose https://vault.centos.org/centos/8/AppStream/x86_64/os/Pack
     && rm git-lfs-2.11.0-2.el8.x86_64.rpm \
     && rpm -q git-lfs
 
-RUN mkdir -p /usr/share/maven/ref && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-3.8.7-bin.tar.gz   && echo "21c2be0a180a326353e8f6d12289f74bc7cd53080305f05358936f3a1b6dd4d91203f4cc799e81761cf5c53c5bbe9dcc13bdb27ec8f57ecf21b2f9ceec3c8d27  /tmp/apache-maven.tar.gz" | sha512sum -c -   && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1   && rm -f /tmp/apache-maven.tar.gz   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+RUN mkdir -p /usr/share/maven/ref && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-3.8.8-bin.tar.gz   && echo "332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00  /tmp/apache-maven.tar.gz" | sha512sum -c -   && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1   && rm -f /tmp/apache-maven.tar.gz   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 RUN set -o errexit -o nounset \
     && echo "Downloading Gradle Manipulator" \
