@@ -4,11 +4,11 @@ ENV \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en" \
     LC_ALL="en_US.UTF-8" \
-    APP_HOME="/home/jboss" \
+    APP_HOME="/root" \
     MAVEN_HOME="/usr/share/maven" \
     MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
     MAVEN_VERSION="3.8.8" \
-    HOME="/home/jboss" \
+    HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     JAVA_HOME="/lib/jvm/java-1.7.0" \
     PATH="$PATH:$JAVA_HOME/bin" \
