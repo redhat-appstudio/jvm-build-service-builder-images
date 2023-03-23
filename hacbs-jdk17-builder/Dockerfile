@@ -4,14 +4,14 @@ ENV \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en" \
     LC_ALL="en_US.UTF-8" \
-    APP_HOME="/home/jboss" \
+    APP_HOME="/root" \
     MAVEN_HOME="/usr/share/maven" \
     MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
     MAVEN_VERSION="3.8.8" \
     GRADLE_OPTS="-Dorg.gradle.daemon=false" \
     GRADLE_MANIPULATOR_HOME="/usr/share/gradle-manipulator" \
     GRADLE_MANIPULATOR_VERSION="3.11" \
-    HOME="/home/jboss" \
+    HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     CLI_JAR_DOWNLOAD_SHA256=cbd2cf43ea34953f9a98f85639a4a25d2fd8827dcb9f1039dc7c48233698ada5 \
     ANALYZER_INIT_DOWNLOAD_SHA256=7d1be22c516e24a67d8c6f3a1e7f949a5d5d8245e918458cae1e20c4226a1acf \
