@@ -22,9 +22,9 @@ ENV \
     JAVA_VENDOR="openjdk" \
     JAVA_VERSION="1.8.0"
 
-RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname java-1.8.0-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar unzip wget which zlib-devel \
+RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname java-1.8.0-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip wget which zlib-devel \
     && microdnf clean all \
-    && rpm -q apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname java-1.8.0-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar unzip wget which zlib-devel
+    && rpm -q apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname java-1.8.0-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip wget which zlib-devel
 
 RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y emacs-filesystem vim-filesystem
 # XXX: RHEL 8 does not have ninja-build, so grabbing from CentOS 8
@@ -99,8 +99,7 @@ RUN set -o errexit -o nounset \
     && echo "Installing Gradle 8.0.2" \
     && unzip gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-8.0.2" "/opt/gradle/8.0.2/" \
-    && export GRADLE_HOME=/opt/gradle/8.0.2; gradle-manipulator --version     && echo "Downloading Gradle 7.4.2" \
+    && mv "gradle-8.0.2" "/opt/gradle/8.0.2/"     && echo "Downloading Gradle 7.4.2" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.4.2-bin.zip" \
     \
     && echo "Checking download hash 7.4.2" \
@@ -109,8 +108,7 @@ RUN set -o errexit -o nounset \
     && echo "Installing Gradle 7.4.2" \
     && unzip gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-7.4.2" "/opt/gradle/7.4.2/" \
-    && export GRADLE_HOME=/opt/gradle/7.4.2; gradle-manipulator --version     && echo "Downloading Gradle 6.9.2" \
+    && mv "gradle-7.4.2" "/opt/gradle/7.4.2/"     && echo "Downloading Gradle 6.9.2" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-6.9.2-bin.zip" \
     \
     && echo "Checking download hash 6.9.2" \
@@ -119,8 +117,7 @@ RUN set -o errexit -o nounset \
     && echo "Installing Gradle 6.9.2" \
     && unzip gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-6.9.2" "/opt/gradle/6.9.2/" \
-    && export GRADLE_HOME=/opt/gradle/6.9.2; gradle-manipulator --version     && echo "Downloading Gradle 5.6.4" \
+    && mv "gradle-6.9.2" "/opt/gradle/6.9.2/"     && echo "Downloading Gradle 5.6.4" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-5.6.4-bin.zip" \
     \
     && echo "Checking download hash 5.6.4" \
@@ -129,8 +126,7 @@ RUN set -o errexit -o nounset \
     && echo "Installing Gradle 5.6.4" \
     && unzip gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-5.6.4" "/opt/gradle/5.6.4/" \
-    && export GRADLE_HOME=/opt/gradle/5.6.4; gradle-manipulator --version     && echo "Downloading Gradle 4.10.3" \
+    && mv "gradle-5.6.4" "/opt/gradle/5.6.4/"     && echo "Downloading Gradle 4.10.3" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-4.10.3-bin.zip" \
     \
     && echo "Checking download hash 4.10.3" \
@@ -139,8 +135,7 @@ RUN set -o errexit -o nounset \
     && echo "Installing Gradle 4.10.3" \
     && unzip gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-4.10.3" "/opt/gradle/4.10.3/" \
-    && export GRADLE_HOME=/opt/gradle/4.10.3; gradle-manipulator --version
+    && mv "gradle-4.10.3" "/opt/gradle/4.10.3/"
 
 LABEL \
     io.cekit.version="4.1.0" \
