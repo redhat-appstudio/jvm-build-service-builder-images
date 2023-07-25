@@ -15,14 +15,14 @@ ENV \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     CLI_JAR_DOWNLOAD_SHA256=4111205a0ba07d7234ac314b4fcb94b2aa1a1e74f737cfb15331eaddfe3a1578 \
     ANALYZER_INIT_DOWNLOAD_SHA256=be859af4d9abade9eb36c607f9b02c0995f2d3da82ee8d74bb8a7ef1dde930f4 \
-    PATH="$PATH:$JAVA_HOME/bin" \
+    PATH="$JAVA_HOME/bin:$PATH" \
     BASE_URL=https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries \
     MAVEN_SHA=332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00 \
     JAVA_HOME="/usr/lib/jvm/java-11" \
     JAVA_VENDOR="openjdk" \
     JAVA_VERSION="11"
 
-RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-11-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip wget which zlib-devel \
+RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip wget which zlib-devel \
     && microdnf clean all \
     && rpm -q apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-11-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip wget which zlib-devel
 
