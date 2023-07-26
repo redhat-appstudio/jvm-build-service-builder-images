@@ -11,7 +11,7 @@ ENV \
     HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     JAVA_HOME="/lib/jvm/java-1.7.0" \
-    PATH="$PATH:$JAVA_HOME/bin" \
+    PATH="$JAVA_HOME/bin:$PATH" \
     BASE_URL=https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries \
     MAVEN_SHA=332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00
 
@@ -23,7 +23,7 @@ RUN microdnf --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc d
     && microdnf clean all \
     && rpm -q apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute libcurl-devel libgcc.i686 libtool lsof make openssl-devel shadow-utils tar unzip wget which zlib-devel
 
-RUN microdnf --setopt=tsflags=nodocs install -y java-1.7.0-openjdk-devel
+RUN microdnf --setopt=tsflags=nodocs install -y java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel
 
 RUN microdnf --setopt=tsflags=nodocs install -y vim-filesystem
 
