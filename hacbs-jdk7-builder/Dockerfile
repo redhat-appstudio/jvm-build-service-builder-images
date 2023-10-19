@@ -5,15 +5,10 @@ ENV \
     LANGUAGE="en_US:en" \
     LC_ALL="en_US.UTF-8" \
     APP_HOME="/root" \
-    MAVEN_HOME="/usr/share/maven" \
-    MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
-    MAVEN_VERSION="3.8.8" \
     HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     JAVA_HOME="/lib/jvm/java-1.7.0" \
-    PATH="$JAVA_HOME/bin:$PATH" \
-    BASE_URL=https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries \
-    MAVEN_SHA=332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00
+    PATH="$JAVA_HOME/bin:$PATH"
 
 RUN microdnf --setopt=tsflags=nodocs install -y shadow-utils
 
@@ -27,10 +22,8 @@ RUN microdnf --setopt=tsflags=nodocs install -y java-1.7.0-openjdk-devel java-1.
 
 RUN microdnf --setopt=tsflags=nodocs install -y vim-filesystem
 
-RUN mkdir -p /usr/share/maven/ref && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-3.8.8-bin.tar.gz   && echo "${MAVEN_SHA}  /tmp/apache-maven.tar.gz" | sha512sum -c -   && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1   && rm -f /tmp/apache-maven.tar.gz   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-
 RUN set -o errexit -o nounset \
-    && mkdir /opt/ant \
+    && mkdir /opt/ant && mkdir /opt/maven \
          && echo "Downloading Ant 1.9.16" \
     && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org/ant/binaries/apache-ant-1.9.16-bin.zip" \
     \
@@ -43,10 +36,27 @@ RUN set -o errexit -o nounset \
     && mv "apache-ant-1.9.16" "/opt/ant/1.9.16/" \
     && export ANT_HOME=/opt/ant/1.9.16 \
     && cd $ANT_HOME \
-    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do $ANT_HOME/bin/ant -f fetch.xml -Ddest=system $i; done
+    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do $ANT_HOME/bin/ant -f fetch.xml -Ddest=system $i; done \
+    \
+    && echo "Downloading Maven 3.8.8" \
+    && wget --no-verbose --output-document=maven.zip "https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.zip" \
+    && echo "Checking download hash 3.8.8" \
+    && echo "aa7d431c07714c410e53502b630f91fc22d2664d5974a413471a2bd4fca9c31f98fbc397d613b7c3e31d3615a9f18487867975b1332462baf7d6ca58ef3628f9 *maven.zip" | sha512sum --check - \
+    && echo "Installing Maven 3.8.8" \
+    && unzip maven.zip \
+    && rm maven.zip \
+    && mv "apache-maven-3.8.8" "/opt/maven/3.8.8/"     \
+    \
+    && echo "Downloading Maven 3.9.5" \
+    && wget --no-verbose --output-document=maven.zip "https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.zip" \
+    && echo "Checking download hash 3.9.5" \
+    && echo "ca59380b839c6bea8f464a08bb7873a1cab91007b95876ba9ed8a9a2b03ceac893e661d218ba3d4af3ccf46d26600fc4c59fccabba9d7b2cc4adcd8aecc1df2a *maven.zip" | sha512sum --check - \
+    && echo "Installing Maven 3.9.5" \
+    && unzip maven.zip \
+    && rm maven.zip \
+    && mv "apache-maven-3.9.5" "/opt/maven/3.9.5/"
 
 LABEL \
-    io.cekit.version="4.1.0" \
     io.k8s.description="HACBS builder image for building Java components." \
     io.k8s.display-name="HACBS BuilderImage" \
     io.openshift.tags="builder,java,hacbs" \

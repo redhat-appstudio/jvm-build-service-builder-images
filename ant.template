@@ -1,9 +1,9 @@
+    \
+    \
     && echo "Downloading Ant $ANT_VERSION" \
     && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org/ant/binaries/apache-ant-$ANT_VERSION-bin.zip" \
-    \
     && echo "Checking download hash $ANT_VERSION" \
     && echo "$ANT_DOWNLOAD_SHA256 *ant.zip" | sha256sum --check - \
-    \
     && echo "Installing Ant $ANT_VERSION" \
     && unzip ant.zip \
     && rm ant.zip \
