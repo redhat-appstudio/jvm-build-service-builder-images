@@ -13,14 +13,14 @@ ENV \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     CLI_JAR_DOWNLOAD_SHA256=555d10b7a94fbb5cee488a79276693a4b29ba61ec8144ef56fd8189fe7e5a83e \
     ANALYZER_INIT_DOWNLOAD_SHA256=6d2ef2f1eb9d75bd8e070a819e633f5e59ae1d63147e9e7fadc69902790634a1 \
-    PATH="$JAVA_HOME/bin:$PATH" \
     JAVA_HOME="/usr/lib/jvm/java-17" \
     JAVA_VENDOR="openjdk" \
-    JAVA_VERSION="17"
+    JAVA_VERSION="17" \
+    PATH="$JAVA_HOME/bin:$PATH"
 
 RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel \
     && microdnf clean all \
-    && rpm -q apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-17-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel
+    && rpm -q apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel buildah bzip2-devel cmake emacs-filesystem glibc-langpack-en glibc-static golang java-17-openjdk-devel libstdc++-static podman
 
 # XXX: RHEL 8 does not have ninja-build, so grabbing from CentOS 8
 RUN rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official \
@@ -55,7 +55,7 @@ RUN set -o errexit -o nounset \
     && chmod 755 ${GRADLE_MANIPULATOR_HOME}/bin/gradle-manipulator \
     && ln --symbolic "${GRADLE_MANIPULATOR_HOME}/bin/gradle-manipulator" /usr/bin/gradle-manipulator
     #we test out gradle manipulator as part of the gradle installation
-
+# YYY
 
 RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
@@ -186,7 +186,6 @@ RUN set -o errexit -o nounset \
     && mv "apache-maven-3.9.5" "/opt/maven/3.9.5/"
 
 LABEL \
-    io.cekit.version="4.1.0" \
     io.k8s.description="HACBS builder image for building Java components." \
     io.k8s.display-name="HACBS BuilderImage" \
     io.openshift.tags="builder,java,hacbs" \

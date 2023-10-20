@@ -11,8 +11,8 @@ generate () {
 
   export TOOL_STRING=""
 
-  ant=`yq .spec.builders.jdk$JAVA.tag $DIR/image-config.yaml | grep -o -E  "ant:.*,?" | cut -d , -f 1 | cut -d : -f 2`
-  echo ant
+  ant=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "ant:.*,?" | cut -d , -f 1 | cut -d : -f 2`
+  echo ant $ant
   for i in ${ant//;/ }
   do
       export ANT_VERSION=$i
@@ -21,8 +21,8 @@ generate () {
       export TOOL_STRING="$TOOL_STRING $res"
   done
 
-  sbt=`yq .spec.builders.jdk$JAVA.tag $DIR/image-config.yaml | grep -o -E  "sbt:.*,?" | cut -d , -f 1 | cut -d : -f 2`
-  echo sbt
+  sbt=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "sbt:.*,?" | cut -d , -f 1 | cut -d : -f 2`
+  echo sbt $sbt
   for i in ${sbt//;/ }
   do
       export SBT_VERSION=$i
@@ -31,8 +31,8 @@ generate () {
       export TOOL_STRING="$TOOL_STRING $res"
   done
 
-  gradle=`yq .spec.builders.jdk$JAVA.tag $DIR/image-config.yaml | grep -o -E  "gradle:.*,?" | cut -d , -f 1 | cut -d : -f 2`
-  echo $gradle
+  gradle=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "gradle:.*,?" | cut -d , -f 1 | cut -d : -f 2`
+  echo gradle $gradle
   for i in ${gradle//;/ }
   do
       export GRADLE_VERSION=$i
@@ -41,8 +41,8 @@ generate () {
       export TOOL_STRING="$TOOL_STRING $res"
   done
 
-  maven=`yq .spec.builders.jdk$JAVA.tag $DIR/image-config.yaml | grep -o -E  "maven:.*,?" | cut -d , -f 1 | cut -d : -f 2`
-  echo maven
+  maven=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "maven:.*,?" | cut -d , -f 1 | cut -d : -f 2`
+  echo maven $maven
   for i in ${maven//;/ }
   do
       export MAVEN_VERSION=$i
@@ -53,9 +53,15 @@ generate () {
 
   export TOOL_STRING="$TOOL_STRING"
 
-  envsubst '$IMAGE_NAME,$BASE_IMAGE,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$TOOL_STRING,$JAVA_PACKAGE' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
+  envsubst '$IMAGE_NAME,$BASE_IMAGE,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$TOOL_STRING,$JAVA_PACKAGE,$UBI' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
   envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/push.yaml > $DIR/.tekton/$IMAGE_NAME-push.yaml
   envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/pull-request.yaml > $DIR/.tekton/$IMAGE_NAME-pull-request.yaml
+
+  if [ "$UBI" == "7" ]; then
+      sed -i "/# XXX/,/YYY/d" $DIR/$IMAGE_NAME/Dockerfile
+      sed -i "s/--setopt=install_weak_deps=0 //" $DIR/$IMAGE_NAME/Dockerfile
+      sed -i "s/buildah bzip2-devel cmake emacs-filesystem glibc-langpack-en glibc-static golang java-17-openjdk-devel libstdc++-static podman/java-1.7.0-openjdk-devel/g" $DIR/$IMAGE_NAME/Dockerfile
+  fi
 }
 
 export GRADLE_MANIPULATOR_VERSION=3.16
@@ -77,16 +83,18 @@ export GRADLE_4_10_3=8626cbf206b4e201ade7b87779090690447054bc93f052954c78480fa6e
 
 export SBT_1_8_0=fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae805897
 
+export ANT_1_9_16=a815d3f323efa30db3451cc7c6d111ef343bbe2738e23161dbee1cbbeecf5b9a
 export ANT_1_10_13=800238184231f8002210fd0c75681bc20ce12f527c9b1dcb95fc8a33803bfce1
 
+echo "Generating for UBI8 / J17"
 export JAVA=17
 export JAVA_PACKAGE=$JAVA
+export UBI=8
 generate
 
-export JAVA=8
-export JAVA_PACKAGE=1.8.0
-generate
-
-export JAVA=11
-export JAVA_PACKAGE=$JAVA
+echo
+echo "Generating for UBI7 / J7"
+export JAVA=7
+export JAVA_PACKAGE=1.7.0
+export UBI=7
 generate
