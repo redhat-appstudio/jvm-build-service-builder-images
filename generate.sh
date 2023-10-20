@@ -41,6 +41,15 @@ generate () {
       export TOOL_STRING="$TOOL_STRING $res"
   done
 
+  maven=`yq .spec.builders.jdk$JAVA.tag $DIR/image-config.yaml | grep -o -E  "maven:.*,?" | cut -d , -f 1 | cut -d : -f 2`
+  echo maven
+  for i in ${maven//;/ }
+  do
+      export MAVEN_VERSION=$i
+      export MAVEN_DOWNLOAD_SHA512=$(name=MAVEN_${MAVEN_VERSION//./_} && echo ${!name})
+      res=`envsubst '$MAVEN_DOWNLOAD_SHA512,$MAVEN_VERSION' < $DIR/maven.template`
+      export TOOL_STRING="$TOOL_STRING $res"
+  done
 
   export TOOL_STRING="$TOOL_STRING"
 
@@ -49,13 +58,15 @@ generate () {
   envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/pull-request.yaml > $DIR/.tekton/$IMAGE_NAME-pull-request.yaml
 }
 
-export MAVEN_VERSION=3.8.8
-export MAVEN_SHA=332088670d14fa9ff346e6858ca0acca304666596fec86eea89253bd496d3c90deae2be5091be199f48e09d46cec817c6419d5161fb4ee37871503f472765d00
 export GRADLE_MANIPULATOR_VERSION=3.14
 export CLI_JAR_SHA=4111205a0ba07d7234ac314b4fcb94b2aa1a1e74f737cfb15331eaddfe3a1578
 export ANALYZER_INIT_SHA=be859af4d9abade9eb36c607f9b02c0995f2d3da82ee8d74bb8a7ef1dde930f4
 
-export GRADLE_8_3=bb09982fdf52718e4c7b25023d10df6d35a5fff969860bdf5a5bd27a3ab27a9e
+export MAVEN_3_8_8=aa7d431c07714c410e53502b630f91fc22d2664d5974a413471a2bd4fca9c31f98fbc397d613b7c3e31d3615a9f18487867975b1332462baf7d6ca58ef3628f9
+export MAVEN_3_9_5=ca59380b839c6bea8f464a08bb7873a1cab91007b95876ba9ed8a9a2b03ceac893e661d218ba3d4af3ccf46d26600fc4c59fccabba9d7b2cc4adcd8aecc1df2a
+
+export GRADLE_8_4=3e1af3ae886920c3ac87f7a91f816c0c7c436f276a6eefdb3da152100fef72ae
+export GRADLE_8_3=591855b517fc635b9e04de1d05d5e76ada3f89f5fc76f87978d1b245b4f69225
 export GRADLE_8_0_2=ff7bf6a86f09b9b2c40bb8f48b25fc19cf2b2664fd1d220cd7ab833ec758d0d7
 export GRADLE_7_5_1=f6b8596b10cce501591e92f229816aa4046424f3b24d771751b06779d58c8ec4
 export GRADLE_7_4_2=29e49b10984e585d8118b7d0bc452f944e386458df27371b49b4ac1dec4b7fda

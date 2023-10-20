@@ -1,0 +1,10 @@
+    \
+    \
+    && echo "Downloading Maven $MAVEN_VERSION" \
+    && wget --no-verbose --output-document=maven.zip "https://dlcdn.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-${MAVEN_VERSION}-bin.zip" \
+    && echo "Checking download hash $MAVEN_VERSION" \
+    && echo "$MAVEN_DOWNLOAD_SHA512 *maven.zip" | sha512sum --check - \
+    && echo "Installing Maven $MAVEN_VERSION" \
+    && unzip maven.zip \
+    && rm maven.zip \
+    && mv "apache-maven-$MAVEN_VERSION" "/opt/maven/$MAVEN_VERSION/"

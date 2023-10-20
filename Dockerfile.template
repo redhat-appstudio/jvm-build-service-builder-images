@@ -5,9 +5,7 @@ ENV \
     LANGUAGE="en_US:en" \
     LC_ALL="en_US.UTF-8" \
     APP_HOME="/root" \
-    MAVEN_HOME="/usr/share/maven" \
     MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
-    MAVEN_VERSION="$MAVEN_VERSION" \
     GRADLE_OPTS="-Dorg.gradle.daemon=false" \
     GRADLE_MANIPULATOR_HOME="/usr/share/gradle-manipulator" \
     GRADLE_MANIPULATOR_VERSION="$GRADLE_MANIPULATOR_VERSION" \
@@ -16,17 +14,14 @@ ENV \
     CLI_JAR_DOWNLOAD_SHA256=$CLI_JAR_SHA \
     ANALYZER_INIT_DOWNLOAD_SHA256=$ANALYZER_INIT_SHA \
     PATH="$JAVA_HOME/bin:$PATH" \
-    BASE_URL=https://dlcdn.apache.org/maven/maven-3/$MAVEN_VERSION/binaries \
-    MAVEN_SHA=$MAVEN_SHA \
     JAVA_HOME="/usr/lib/jvm/java-$JAVA_PACKAGE" \
     JAVA_VENDOR="openjdk" \
     JAVA_VERSION="$JAVA_PACKAGE"
 
-RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip wget which zlib-devel \
+RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel \
     && microdnf clean all \
-    && rpm -q apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-$JAVA_PACKAGE-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip wget which zlib-devel
+    && rpm -q apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-$JAVA_PACKAGE-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel
 
-RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y emacs-filesystem vim-filesystem
 # XXX: RHEL 8 does not have ninja-build, so grabbing from CentOS 8
 RUN rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official \
     && rpm -q gpg-pubkey-8483c65d-5ccc5b19
@@ -40,8 +35,6 @@ RUN wget --no-verbose https://vault.centos.org/centos/8/AppStream/x86_64/os/Pack
     && rpm -ivh git-lfs-2.11.0-2.el8.x86_64.rpm \
     && rm git-lfs-2.11.0-2.el8.x86_64.rpm \
     && rpm -q git-lfs
-
-RUN mkdir -p /usr/share/maven/ref && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz   && echo "${MAVEN_SHA}  /tmp/apache-maven.tar.gz" | sha512sum -c -   && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1   && rm -f /tmp/apache-maven.tar.gz   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 RUN set -o errexit -o nounset \
     && echo "Downloading Gradle Manipulator" \
@@ -68,6 +61,7 @@ RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
     && mkdir /opt/sbt \
     && mkdir /opt/ant \
+    && mkdir /opt/maven \
     $TOOL_STRING
 
 LABEL \
