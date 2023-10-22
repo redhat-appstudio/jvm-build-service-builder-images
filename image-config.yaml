@@ -8,6 +8,6 @@ spec:
   #after you run generate.sh
   builders:
     jdk7:
-      tag: jdk:7,maven:3.8,ant:1.9.16
+      tag: jdk:7,maven:3.8;3.9.5,ant:1.9.16
     jdk17:
       tag: jdk:8;11;17,maven:3.8.8;3.9.5,gradle:8.4;8.3;8.0.2;7.4.2;6.9.2,sbt:1.8.0,ant:1.10.13
