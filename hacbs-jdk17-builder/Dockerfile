@@ -131,6 +131,24 @@ RUN set -o errexit -o nounset \
     && rm gradle.zip \
     && mv "gradle-6.9.2" "/opt/gradle/6.9.2/"     \
     \
+    && echo "Downloading Gradle 5.6.4" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-5.6.4-bin.zip" \
+    && echo "Checking download hash 5.6.4" \
+    && echo "1f3067073041bc44554d0efe5d402a33bc3d3c93cc39ab684f308586d732a80d *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 5.6.4" \
+    && unzip gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-5.6.4" "/opt/gradle/5.6.4/"     \
+    \
+    && echo "Downloading Gradle 4.10.3" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-4.10.3-bin.zip" \
+    && echo "Checking download hash 4.10.3" \
+    && echo "8626cbf206b4e201ade7b87779090690447054bc93f052954c78480fa6ed186e *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 4.10.3" \
+    && unzip gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-4.10.3" "/opt/gradle/4.10.3/"     \
+    \
     && echo "Downloading Maven 3.8.8" \
     && wget --no-verbose --output-document=maven.zip "https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.zip" \
     && echo "Checking download hash 3.8.8" \
