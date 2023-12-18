@@ -122,6 +122,24 @@ RUN set -o errexit -o nounset \
     && rm gradle.zip \
     && mv "gradle-7.4.2" "/opt/gradle/7.4.2/"     \
     \
+    && echo "Downloading Gradle 7.6.3" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.6.3-bin.zip" \
+    && echo "Checking download hash 7.6.3" \
+    && echo "740c2e472ee4326c33bf75a5c9f5cd1e69ecf3f9b580f6e236c86d1f3d98cfac *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 7.6.3" \
+    && unzip gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-7.6.3" "/opt/gradle/7.6.3/"     \
+    \
+    && echo "Downloading Gradle 7.5.1" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.5.1-bin.zip" \
+    && echo "Checking download hash 7.5.1" \
+    && echo "f6b8596b10cce501591e92f229816aa4046424f3b24d771751b06779d58c8ec4 *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 7.5.1" \
+    && unzip gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-7.5.1" "/opt/gradle/7.5.1/"     \
+    \
     && echo "Downloading Gradle 6.9.2" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-6.9.2-bin.zip" \
     && echo "Checking download hash 6.9.2" \
