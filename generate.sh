@@ -18,7 +18,7 @@ generate () {
       export ANT_VERSION=$i
       export ANT_DOWNLOAD_SHA256=$(name=ANT_${ANT_VERSION//./_} && echo ${!name})
       res=`envsubst '$ANT_DOWNLOAD_SHA256,$ANT_VERSION' < $DIR/ant.template`
-      export TOOL_STRING="$TOOL_STRING $res"
+      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"
   done
 
   sbt=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "sbt:.*,?" | cut -d , -f 1 | cut -d : -f 2`
@@ -28,7 +28,7 @@ generate () {
       export SBT_VERSION=$i
       export SBT_DOWNLOAD_SHA256=$(name=SBT_${SBT_VERSION//./_} && echo ${!name})
       res=`envsubst '$SBT_DOWNLOAD_SHA256,$SBT_VERSION' < $DIR/sbt.template`
-      export TOOL_STRING="$TOOL_STRING $res"
+      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"
   done
 
   gradle=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "gradle:.*,?" | cut -d , -f 1 | cut -d : -f 2`
@@ -38,7 +38,7 @@ generate () {
       export GRADLE_VERSION=$i
       export GRADLE_DOWNLOAD_SHA256=$(name=GRADLE_${GRADLE_VERSION//./_} && echo ${!name})
       res=`envsubst '$GRADLE_DOWNLOAD_SHA256,$GRADLE_VERSION' < $DIR/gradle.template`
-      export TOOL_STRING="$TOOL_STRING $res"
+      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"
   done
 
   maven=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "maven:.*,?" | cut -d , -f 1 | cut -d : -f 2`
@@ -48,25 +48,29 @@ generate () {
       export MAVEN_VERSION=$i
       export MAVEN_DOWNLOAD_SHA512=$(name=MAVEN_${MAVEN_VERSION//./_} && echo ${!name})
       res=`envsubst '$MAVEN_DOWNLOAD_SHA512,$MAVEN_VERSION' < $DIR/maven.template`
-      export TOOL_STRING="$TOOL_STRING $res"
+      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"
   done
 
-  export TOOL_STRING="$TOOL_STRING"
+  if [ "$UBI" == "7" ]; then
+      export UBI_PKGS=$UBI7_PKGS
+  else
+      export UBI_PKGS=$UBI8_PKGS
+  fi
 
-  envsubst '$IMAGE_NAME,$BASE_IMAGE,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$TOOL_STRING,$JAVA_PACKAGE,$UBI' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
+  envsubst '$IMAGE_NAME,$BASE_IMAGE,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$GRADLE_MANIPULATOR_HOME,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$TOOL_STRING,$JAVA_PACKAGE,$UBI,$UBI_PKGS' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
   envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/push.yaml > $DIR/.tekton/$IMAGE_NAME-push.yaml
   envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/pull-request.yaml > $DIR/.tekton/$IMAGE_NAME-pull-request.yaml
 
   if [ "$UBI" == "7" ]; then
-      sed -i "/# XXX/,/YYY/d" $DIR/$IMAGE_NAME/Dockerfile
+      # Earlier microdnf doesn't support install_weak_deps.
       sed -i "s/--setopt=install_weak_deps=0 //" $DIR/$IMAGE_NAME/Dockerfile
-      sed -i "s/buildah bzip2-devel cmake emacs-filesystem glibc-langpack-en glibc-static golang java-17-openjdk-devel libstdc++-static podman/java-1.7.0-openjdk-devel/g" $DIR/$IMAGE_NAME/Dockerfile
   fi
 }
 
 export GRADLE_MANIPULATOR_VERSION=3.16
 export CLI_JAR_SHA=555d10b7a94fbb5cee488a79276693a4b29ba61ec8144ef56fd8189fe7e5a83e
 export ANALYZER_INIT_SHA=6d2ef2f1eb9d75bd8e070a819e633f5e59ae1d63147e9e7fadc69902790634a1
+export GRADLE_MANIPULATOR_HOME=/usr/share/gradle-manipulator
 
 export MAVEN_3_8_8=aa7d431c07714c410e53502b630f91fc22d2664d5974a413471a2bd4fca9c31f98fbc397d613b7c3e31d3615a9f18487867975b1332462baf7d6ca58ef3628f9
 export MAVEN_3_9_5=ca59380b839c6bea8f464a08bb7873a1cab91007b95876ba9ed8a9a2b03ceac893e661d218ba3d4af3ccf46d26600fc4c59fccabba9d7b2cc4adcd8aecc1df2a
@@ -85,6 +89,9 @@ export SBT_1_8_0=fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae80589
 
 export ANT_1_9_16=a815d3f323efa30db3451cc7c6d111ef343bbe2738e23161dbee1cbbeecf5b9a
 export ANT_1_10_13=800238184231f8002210fd0c75681bc20ce12f527c9b1dcb95fc8a33803bfce1
+
+export UBI8_PKGS="apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel"
+export UBI7_PKGS="apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel shadow-utils tar unzip vim-filesystem wget which zlib-devel"
 
 echo "Generating for UBI8 / J17"
 export JAVA=17

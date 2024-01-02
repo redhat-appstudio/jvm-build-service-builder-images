@@ -7,28 +7,59 @@ ENV \
     APP_HOME="/root" \
     MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
     GRADLE_OPTS="-Dorg.gradle.daemon=false" \
-    GRADLE_MANIPULATOR_HOME="/usr/share/gradle-manipulator" \
-    GRADLE_MANIPULATOR_VERSION="3.16" \
     HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
-    CLI_JAR_DOWNLOAD_SHA256=555d10b7a94fbb5cee488a79276693a4b29ba61ec8144ef56fd8189fe7e5a83e \
-    ANALYZER_INIT_DOWNLOAD_SHA256=6d2ef2f1eb9d75bd8e070a819e633f5e59ae1d63147e9e7fadc69902790634a1 \
     JAVA_HOME="/usr/lib/jvm/java-1.7.0" \
     JAVA_VENDOR="openjdk" \
-    JAVA_VERSION="1.7.0" \
-    PATH="$JAVA_HOME/bin:$PATH"
+    UBI=7
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
-RUN microdnf --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel \
+RUN microdnf --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel shadow-utils tar unzip vim-filesystem wget which zlib-devel \
     && microdnf clean all \
-    && rpm -q apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel java-1.7.0-openjdk-devel
+    && rpm -q apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel shadow-utils tar unzip vim-filesystem wget which zlib-devel
 
+RUN if [ "7" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official \
+    && rpm -q gpg-pubkey-8483c65d-5ccc5b19 \
+    # XXX: RHEL 8 does not have ninja-build, so grabbing from CentOS 8
+    && wget --no-verbose https://vault.centos.org/centos/8/PowerTools/x86_64/os/Packages/ninja-build-1.8.2-1.el8.x86_64.rpm \
+    && rpm -K ninja-build-1.8.2-1.el8.x86_64.rpm \
+    && rpm -ivh ninja-build-1.8.2-1.el8.x86_64.rpm \
+    && rm ninja-build-1.8.2-1.el8.x86_64.rpm \
+    && rpm -q ninja-build \
+    && wget --no-verbose https://vault.centos.org/centos/8/AppStream/x86_64/os/Packages/git-lfs-2.11.0-2.el8.x86_64.rpm \
+    && rpm -K git-lfs-2.11.0-2.el8.x86_64.rpm \
+    && rpm -ivh git-lfs-2.11.0-2.el8.x86_64.rpm \
+    && rm git-lfs-2.11.0-2.el8.x86_64.rpm \
+    && rpm -q git-lfs ; \
+    fi
+
+RUN if [ "7" = "8" ] ; then set -o errexit -o nounset \
+    && echo "Downloading Gradle Manipulator" \
+    && wget --no-verbose --output-document=cli.jar "https://repo1.maven.org/maven2/org/jboss/gm/cli/3.16/cli-3.16.jar" \
+    && wget --no-verbose --output-document=analyzer-init.gradle "https://repo1.maven.org/maven2/org/jboss/gm/analyzer/3.16/analyzer-3.16-init.gradle" \
+    \
+    && echo "Checking cli.jar download hash" \
+    && echo "555d10b7a94fbb5cee488a79276693a4b29ba61ec8144ef56fd8189fe7e5a83e *cli.jar" | sha256sum --check - \
+    \
+    && echo "Checking analyzer-init.gradle download hash" \
+    && echo "6d2ef2f1eb9d75bd8e070a819e633f5e59ae1d63147e9e7fadc69902790634a1 *analyzer-init.gradle" | sha256sum --check - \
+    \
+    && echo "Installing Gradle Manipulator" \
+    && mkdir "/usr/share/gradle-manipulator" \
+    && mv cli.jar analyzer-init.gradle "/usr/share/gradle-manipulator/" \
+    && mkdir "/usr/share/gradle-manipulator/bin" \
+    && echo -e "#!/bin/sh\n\nset -eu\nARGS=\"-l \${GRADLE_HOME}\"\njava -jar /usr/share/gradle-manipulator/cli.jar \"\${ARGS}\" --init-script=/usr/share/gradle-manipulator/analyzer-init.gradle \$@" > /usr/share/gradle-manipulator/bin/gradle-manipulator \
+    && chmod 755 /usr/share/gradle-manipulator/bin/gradle-manipulator \
+    && ln --symbolic "/usr/share/gradle-manipulator/bin/gradle-manipulator" /usr/bin/gradle-manipulator ; \
+    #we test out gradle manipulator as part of the gradle installation
+    fi
 
 RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
     && mkdir /opt/sbt \
     && mkdir /opt/ant \
     && mkdir /opt/maven \
-         \
+    \
     \
     && echo "Downloading Ant 1.9.16" \
     && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org/ant/binaries/apache-ant-1.9.16-bin.zip" \

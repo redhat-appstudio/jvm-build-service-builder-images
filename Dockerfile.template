@@ -7,45 +7,42 @@ ENV \
     APP_HOME="/root" \
     MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
     GRADLE_OPTS="-Dorg.gradle.daemon=false" \
-    GRADLE_MANIPULATOR_HOME="/usr/share/gradle-manipulator" \
-    GRADLE_MANIPULATOR_VERSION="$GRADLE_MANIPULATOR_VERSION" \
     HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
-    CLI_JAR_DOWNLOAD_SHA256=$CLI_JAR_SHA \
-    ANALYZER_INIT_DOWNLOAD_SHA256=$ANALYZER_INIT_SHA \
     JAVA_HOME="/usr/lib/jvm/java-$JAVA_PACKAGE" \
     JAVA_VENDOR="openjdk" \
-    JAVA_VERSION="$JAVA_PACKAGE" \
-    PATH="$JAVA_HOME/bin:$PATH"
+    UBI=${UBI}
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
-RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel podman shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel \
+RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y ${UBI_PKGS} \
     && microdnf clean all \
-    && rpm -q apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel shadow-utils tar tzdata-java unzip vim-filesystem wget which zlib-devel buildah bzip2-devel cmake emacs-filesystem glibc-langpack-en glibc-static golang java-17-openjdk-devel libstdc++-static podman
+    && rpm -q ${UBI_PKGS}
 
-# XXX: RHEL 8 does not have ninja-build, so grabbing from CentOS 8
-RUN rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official \
-    && rpm -q gpg-pubkey-8483c65d-5ccc5b19
-RUN wget --no-verbose https://vault.centos.org/centos/8/PowerTools/x86_64/os/Packages/ninja-build-1.8.2-1.el8.x86_64.rpm \
+RUN if [ "$UBI" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official \
+    && rpm -q gpg-pubkey-8483c65d-5ccc5b19 \
+    # XXX: RHEL 8 does not have ninja-build, so grabbing from CentOS 8
+    && wget --no-verbose https://vault.centos.org/centos/8/PowerTools/x86_64/os/Packages/ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rpm -K ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rpm -ivh ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rm ninja-build-1.8.2-1.el8.x86_64.rpm \
-    && rpm -q ninja-build
-RUN wget --no-verbose https://vault.centos.org/centos/8/AppStream/x86_64/os/Packages/git-lfs-2.11.0-2.el8.x86_64.rpm \
+    && rpm -q ninja-build \
+    && wget --no-verbose https://vault.centos.org/centos/8/AppStream/x86_64/os/Packages/git-lfs-2.11.0-2.el8.x86_64.rpm \
     && rpm -K git-lfs-2.11.0-2.el8.x86_64.rpm \
     && rpm -ivh git-lfs-2.11.0-2.el8.x86_64.rpm \
     && rm git-lfs-2.11.0-2.el8.x86_64.rpm \
-    && rpm -q git-lfs
+    && rpm -q git-lfs ; \
+    fi
 
-RUN set -o errexit -o nounset \
+RUN if [ "$UBI" = "8" ] ; then set -o errexit -o nounset \
     && echo "Downloading Gradle Manipulator" \
     && wget --no-verbose --output-document=cli.jar "https://repo1.maven.org/maven2/org/jboss/gm/cli/${GRADLE_MANIPULATOR_VERSION}/cli-${GRADLE_MANIPULATOR_VERSION}.jar" \
     && wget --no-verbose --output-document=analyzer-init.gradle "https://repo1.maven.org/maven2/org/jboss/gm/analyzer/${GRADLE_MANIPULATOR_VERSION}/analyzer-${GRADLE_MANIPULATOR_VERSION}-init.gradle" \
     \
     && echo "Checking cli.jar download hash" \
-    && echo "${CLI_JAR_DOWNLOAD_SHA256} *cli.jar" | sha256sum --check - \
+    && echo "${CLI_JAR_SHA} *cli.jar" | sha256sum --check - \
     \
     && echo "Checking analyzer-init.gradle download hash" \
-    && echo "${ANALYZER_INIT_DOWNLOAD_SHA256} *analyzer-init.gradle" | sha256sum --check - \
+    && echo "${ANALYZER_INIT_SHA} *analyzer-init.gradle" | sha256sum --check - \
     \
     && echo "Installing Gradle Manipulator" \
     && mkdir "${GRADLE_MANIPULATOR_HOME}" \
@@ -53,16 +50,16 @@ RUN set -o errexit -o nounset \
     && mkdir "${GRADLE_MANIPULATOR_HOME}/bin" \
     && echo -e "#!/bin/sh\n\nset -eu\nARGS=\"-l \${GRADLE_HOME}\"\njava -jar ${GRADLE_MANIPULATOR_HOME}/cli.jar \"\${ARGS}\" --init-script=${GRADLE_MANIPULATOR_HOME}/analyzer-init.gradle \$@" > ${GRADLE_MANIPULATOR_HOME}/bin/gradle-manipulator \
     && chmod 755 ${GRADLE_MANIPULATOR_HOME}/bin/gradle-manipulator \
-    && ln --symbolic "${GRADLE_MANIPULATOR_HOME}/bin/gradle-manipulator" /usr/bin/gradle-manipulator
+    && ln --symbolic "${GRADLE_MANIPULATOR_HOME}/bin/gradle-manipulator" /usr/bin/gradle-manipulator ; \
     #we test out gradle manipulator as part of the gradle installation
-# YYY
+    fi
 
 RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
     && mkdir /opt/sbt \
     && mkdir /opt/ant \
     && mkdir /opt/maven \
-    $TOOL_STRING
+$TOOL_STRING
 
 LABEL \
     io.k8s.description="HACBS builder image for building Java components." \
