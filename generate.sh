@@ -18,7 +18,7 @@ generate () {
       export ANT_VERSION=$i
       export ANT_DOWNLOAD_SHA256=$(name=ANT_${ANT_VERSION//./_} && echo ${!name})
       res=`envsubst '$ANT_DOWNLOAD_SHA256,$ANT_VERSION' < $DIR/ant.template`
-      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"
+      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"$'\n'
   done
 
   sbt=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "sbt:.*,?" | cut -d , -f 1 | cut -d : -f 2`
@@ -28,7 +28,7 @@ generate () {
       export SBT_VERSION=$i
       export SBT_DOWNLOAD_SHA256=$(name=SBT_${SBT_VERSION//./_} && echo ${!name})
       res=`envsubst '$SBT_DOWNLOAD_SHA256,$SBT_VERSION' < $DIR/sbt.template`
-      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"
+      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"$'\n'
   done
 
   gradle=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "gradle:.*,?" | cut -d , -f 1 | cut -d : -f 2`
@@ -38,7 +38,7 @@ generate () {
       export GRADLE_VERSION=$i
       export GRADLE_DOWNLOAD_SHA256=$(name=GRADLE_${GRADLE_VERSION//./_} && echo ${!name})
       res=`envsubst '$GRADLE_DOWNLOAD_SHA256,$GRADLE_VERSION' < $DIR/gradle.template`
-      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"
+      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"$'\n'
   done
 
   maven=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "maven:.*,?" | cut -d , -f 1 | cut -d : -f 2`
@@ -48,8 +48,9 @@ generate () {
       export MAVEN_VERSION=$i
       export MAVEN_DOWNLOAD_SHA512=$(name=MAVEN_${MAVEN_VERSION//./_} && echo ${!name})
       res=`envsubst '$MAVEN_DOWNLOAD_SHA512,$MAVEN_VERSION' < $DIR/maven.template`
-      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"
+      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"$'\n'
   done
+  export TOOL_STRING="$TOOL_STRING    && echo \"Completed tool installation\""
 
   if [ "$UBI" == "7" ]; then
       export UBI_PKGS=$UBI7_PKGS

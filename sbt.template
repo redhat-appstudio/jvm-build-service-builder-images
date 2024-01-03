@@ -1,11 +1,11 @@
-    \
+   \
     \
     && echo "Downloading SBT $SBT_VERSION" \
     && wget --no-verbose --output-document=sbt.zip "https://github.com/sbt/sbt/releases/download/v$SBT_VERSION/sbt-$SBT_VERSION.zip" \
     && echo "Checking download hash $SBT_VERSION" \
     && echo "$SBT_DOWNLOAD_SHA256 *sbt.zip" | sha256sum --check - \
     && echo "Installing SBT $SBT_VERSION" \
-    && unzip sbt.zip \
+    && unzip -q sbt.zip \
     && rm sbt.zip \
     && mv "sbt" "/opt/sbt/$SBT_VERSION/" \
-    && export SBT_HOME=/opt/sbt/$SBT_VERSION
+    && export SBT_HOME=/opt/sbt/$SBT_VERSION \

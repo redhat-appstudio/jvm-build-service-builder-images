@@ -66,121 +66,134 @@ RUN set -o errexit -o nounset \
     && echo "Checking download hash 1.10.13" \
     && echo "800238184231f8002210fd0c75681bc20ce12f527c9b1dcb95fc8a33803bfce1 *ant.zip" | sha256sum --check - \
     && echo "Installing Ant 1.10.13" \
-    && unzip ant.zip \
+    && unzip -q ant.zip \
     && rm ant.zip \
     && mv "apache-ant-1.10.13" "/opt/ant/1.10.13/" \
     && export ANT_HOME=/opt/ant/1.10.13 \
     && cd $ANT_HOME \
-    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do $ANT_HOME/bin/ant -f fetch.xml -Ddest=system $i; done     \
+    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do echo "Processing $i" ; $ANT_HOME/bin/ant -S -f fetch.xml -Ddest=system $i; done \
+    \
     \
     && echo "Downloading SBT 1.8.0" \
     && wget --no-verbose --output-document=sbt.zip "https://github.com/sbt/sbt/releases/download/v1.8.0/sbt-1.8.0.zip" \
     && echo "Checking download hash 1.8.0" \
     && echo "fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae805897 *sbt.zip" | sha256sum --check - \
     && echo "Installing SBT 1.8.0" \
-    && unzip sbt.zip \
+    && unzip -q sbt.zip \
     && rm sbt.zip \
     && mv "sbt" "/opt/sbt/1.8.0/" \
-    && export SBT_HOME=/opt/sbt/1.8.0     \
+    && export SBT_HOME=/opt/sbt/1.8.0 \
+    \
     \
     && echo "Downloading Gradle 8.4" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.4-bin.zip" \
     && echo "Checking download hash 8.4" \
     && echo "3e1af3ae886920c3ac87f7a91f816c0c7c436f276a6eefdb3da152100fef72ae *gradle.zip" | sha256sum --check - \
     && echo "Installing Gradle 8.4" \
-    && unzip gradle.zip \
+    && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-8.4" "/opt/gradle/8.4/"     \
+    && mv "gradle-8.4" "/opt/gradle/8.4/" \
+    \
     \
     && echo "Downloading Gradle 8.3" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.3-bin.zip" \
     && echo "Checking download hash 8.3" \
     && echo "591855b517fc635b9e04de1d05d5e76ada3f89f5fc76f87978d1b245b4f69225 *gradle.zip" | sha256sum --check - \
     && echo "Installing Gradle 8.3" \
-    && unzip gradle.zip \
+    && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-8.3" "/opt/gradle/8.3/"     \
+    && mv "gradle-8.3" "/opt/gradle/8.3/" \
+    \
     \
     && echo "Downloading Gradle 8.0.2" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.0.2-bin.zip" \
     && echo "Checking download hash 8.0.2" \
     && echo "ff7bf6a86f09b9b2c40bb8f48b25fc19cf2b2664fd1d220cd7ab833ec758d0d7 *gradle.zip" | sha256sum --check - \
     && echo "Installing Gradle 8.0.2" \
-    && unzip gradle.zip \
+    && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-8.0.2" "/opt/gradle/8.0.2/"     \
+    && mv "gradle-8.0.2" "/opt/gradle/8.0.2/" \
+    \
     \
     && echo "Downloading Gradle 7.4.2" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.4.2-bin.zip" \
     && echo "Checking download hash 7.4.2" \
     && echo "29e49b10984e585d8118b7d0bc452f944e386458df27371b49b4ac1dec4b7fda *gradle.zip" | sha256sum --check - \
     && echo "Installing Gradle 7.4.2" \
-    && unzip gradle.zip \
+    && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-7.4.2" "/opt/gradle/7.4.2/"     \
+    && mv "gradle-7.4.2" "/opt/gradle/7.4.2/" \
+    \
     \
     && echo "Downloading Gradle 7.6.3" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.6.3-bin.zip" \
     && echo "Checking download hash 7.6.3" \
     && echo "740c2e472ee4326c33bf75a5c9f5cd1e69ecf3f9b580f6e236c86d1f3d98cfac *gradle.zip" | sha256sum --check - \
     && echo "Installing Gradle 7.6.3" \
-    && unzip gradle.zip \
+    && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-7.6.3" "/opt/gradle/7.6.3/"     \
+    && mv "gradle-7.6.3" "/opt/gradle/7.6.3/" \
+    \
     \
     && echo "Downloading Gradle 7.5.1" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.5.1-bin.zip" \
     && echo "Checking download hash 7.5.1" \
     && echo "f6b8596b10cce501591e92f229816aa4046424f3b24d771751b06779d58c8ec4 *gradle.zip" | sha256sum --check - \
     && echo "Installing Gradle 7.5.1" \
-    && unzip gradle.zip \
+    && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-7.5.1" "/opt/gradle/7.5.1/"     \
+    && mv "gradle-7.5.1" "/opt/gradle/7.5.1/" \
+    \
     \
     && echo "Downloading Gradle 6.9.2" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-6.9.2-bin.zip" \
     && echo "Checking download hash 6.9.2" \
     && echo "8b356fd8702d5ffa2e066ed0be45a023a779bba4dd1a68fd11bc2a6bdc981e8f *gradle.zip" | sha256sum --check - \
     && echo "Installing Gradle 6.9.2" \
-    && unzip gradle.zip \
+    && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-6.9.2" "/opt/gradle/6.9.2/"     \
+    && mv "gradle-6.9.2" "/opt/gradle/6.9.2/" \
+    \
     \
     && echo "Downloading Gradle 5.6.4" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-5.6.4-bin.zip" \
     && echo "Checking download hash 5.6.4" \
     && echo "1f3067073041bc44554d0efe5d402a33bc3d3c93cc39ab684f308586d732a80d *gradle.zip" | sha256sum --check - \
     && echo "Installing Gradle 5.6.4" \
-    && unzip gradle.zip \
+    && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-5.6.4" "/opt/gradle/5.6.4/"     \
+    && mv "gradle-5.6.4" "/opt/gradle/5.6.4/" \
+    \
     \
     && echo "Downloading Gradle 4.10.3" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-4.10.3-bin.zip" \
     && echo "Checking download hash 4.10.3" \
     && echo "8626cbf206b4e201ade7b87779090690447054bc93f052954c78480fa6ed186e *gradle.zip" | sha256sum --check - \
     && echo "Installing Gradle 4.10.3" \
-    && unzip gradle.zip \
+    && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-4.10.3" "/opt/gradle/4.10.3/"     \
+    && mv "gradle-4.10.3" "/opt/gradle/4.10.3/" \
+    \
     \
     && echo "Downloading Maven 3.8.8" \
     && wget --no-verbose --output-document=maven.zip "https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.zip" \
     && echo "Checking download hash 3.8.8" \
     && echo "aa7d431c07714c410e53502b630f91fc22d2664d5974a413471a2bd4fca9c31f98fbc397d613b7c3e31d3615a9f18487867975b1332462baf7d6ca58ef3628f9 *maven.zip" | sha512sum --check - \
     && echo "Installing Maven 3.8.8" \
-    && unzip maven.zip \
+    && unzip -q maven.zip \
     && rm maven.zip \
-    && mv "apache-maven-3.8.8" "/opt/maven/3.8.8/"     \
+    && mv "apache-maven-3.8.8" "/opt/maven/3.8.8/" \
+    \
     \
     && echo "Downloading Maven 3.9.5" \
     && wget --no-verbose --output-document=maven.zip "https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.zip" \
     && echo "Checking download hash 3.9.5" \
     && echo "ca59380b839c6bea8f464a08bb7873a1cab91007b95876ba9ed8a9a2b03ceac893e661d218ba3d4af3ccf46d26600fc4c59fccabba9d7b2cc4adcd8aecc1df2a *maven.zip" | sha512sum --check - \
     && echo "Installing Maven 3.9.5" \
-    && unzip maven.zip \
+    && unzip -q maven.zip \
     && rm maven.zip \
-    && mv "apache-maven-3.9.5" "/opt/maven/3.9.5/"
+    && mv "apache-maven-3.9.5" "/opt/maven/3.9.5/" \
+    && echo "Completed tool installation"
 
 LABEL \
     io.k8s.description="HACBS builder image for building Java components." \
