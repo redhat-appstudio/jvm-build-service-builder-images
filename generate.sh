@@ -5,7 +5,7 @@ set -eu
 DIR=`dirname $0`
 generate () {
 
-  export IMAGE_NAME=hacbs-jdk$JAVA-builder
+  export IMAGE_NAME=hacbs-ubi$UBI-builder
   mkdir -p $DIR/$IMAGE_NAME
   #deal with gradle and sbt and ant
 
