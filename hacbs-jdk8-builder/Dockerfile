@@ -8,11 +8,11 @@ ENV \
     MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
     GRADLE_OPTS="-Dorg.gradle.daemon=false" \
     GRADLE_MANIPULATOR_HOME="/usr/share/gradle-manipulator" \
-    GRADLE_MANIPULATOR_VERSION="3.14" \
+    GRADLE_MANIPULATOR_VERSION="3.16" \
     HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
-    CLI_JAR_DOWNLOAD_SHA256=4111205a0ba07d7234ac314b4fcb94b2aa1a1e74f737cfb15331eaddfe3a1578 \
-    ANALYZER_INIT_DOWNLOAD_SHA256=be859af4d9abade9eb36c607f9b02c0995f2d3da82ee8d74bb8a7ef1dde930f4 \
+    CLI_JAR_DOWNLOAD_SHA256=555d10b7a94fbb5cee488a79276693a4b29ba61ec8144ef56fd8189fe7e5a83e \
+    ANALYZER_INIT_DOWNLOAD_SHA256=6d2ef2f1eb9d75bd8e070a819e633f5e59ae1d63147e9e7fadc69902790634a1 \
     PATH="$JAVA_HOME/bin:$PATH" \
     JAVA_HOME="/usr/lib/jvm/java-1.8.0" \
     JAVA_VENDOR="openjdk" \
@@ -38,8 +38,8 @@ RUN wget --no-verbose https://vault.centos.org/centos/8/AppStream/x86_64/os/Pack
 
 RUN set -o errexit -o nounset \
     && echo "Downloading Gradle Manipulator" \
-    && wget --no-verbose --output-document=cli.jar "https://repo1.maven.org/maven2/org/jboss/gm/cli/3.14/cli-3.14.jar" \
-    && wget --no-verbose --output-document=analyzer-init.gradle "https://repo1.maven.org/maven2/org/jboss/gm/analyzer/3.14/analyzer-3.14-init.gradle" \
+    && wget --no-verbose --output-document=cli.jar "https://repo1.maven.org/maven2/org/jboss/gm/cli/3.16/cli-3.16.jar" \
+    && wget --no-verbose --output-document=analyzer-init.gradle "https://repo1.maven.org/maven2/org/jboss/gm/analyzer/3.16/analyzer-3.16-init.gradle" \
     \
     && echo "Checking cli.jar download hash" \
     && echo "${CLI_JAR_DOWNLOAD_SHA256} *cli.jar" | sha256sum --check - \
