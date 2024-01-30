@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi7/ubi-minimal
+FROM registry.access.redhat.com/ubi7/ubi-minimal:7.9
 USER root
 ENV \
     LANG="en_US.UTF-8" \

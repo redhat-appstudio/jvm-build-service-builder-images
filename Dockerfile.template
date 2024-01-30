@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi${UBI}/ubi-minimal
+${UBI_IMAGE}
 USER root
 ENV \
     LANG="en_US.UTF-8" \
