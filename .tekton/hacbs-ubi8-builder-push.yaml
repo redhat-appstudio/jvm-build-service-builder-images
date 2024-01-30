@@ -13,7 +13,7 @@ spec:
     - name: revision
       value: "{{revision}}"
     - name: output-image
-      value: 'quay.io/redhat-appstudio/hacbs-ubi8-builder:{{revision}}'
+      value: 'quay.io/redhat-appstudio/jbs-ubi8-builder:{{revision}}'
     - name: dockerfile
       value: hacbs-ubi8-builder/Dockerfile
   pipelineRef:
