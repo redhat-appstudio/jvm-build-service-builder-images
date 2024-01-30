@@ -5,7 +5,7 @@ set -eu
 DIR=`dirname $0`
 generate () {
 
-  export IMAGE_NAME=hacbs-ubi$UBI-builder
+  export IMAGE_NAME=jbs-ubi$UBI-builder
   mkdir -p $DIR/$IMAGE_NAME
   #deal with gradle and sbt and ant
 
@@ -58,10 +58,9 @@ generate () {
       export UBI_PKGS=$UBI8_PKGS
   fi
 
-  envsubst '$IMAGE_NAME,$BASE_IMAGE,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$GRADLE_MANIPULATOR_HOME,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$TOOL_STRING,$JAVA_PACKAGE,$UBI,$UBI_PKGS,$UBI_IMAGE' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
-  envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/push.yaml > $DIR/.tekton/$IMAGE_NAME-push.yaml
-  envsubst '$IMAGE_NAME,$BASE_IMAGE' < $DIR/pull-request.yaml > $DIR/.tekton/$IMAGE_NAME-pull-request.yaml
-
+  envsubst '$IMAGE_NAME,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$GRADLE_MANIPULATOR_HOME,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$TOOL_STRING,$JAVA_PACKAGE,$UBI,$UBI_PKGS,$UBI_IMAGE' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
+  envsubst '$IMAGE_NAME' < $DIR/push.yaml > $DIR/.tekton/$IMAGE_NAME-push.yaml
+  envsubst '$IMAGE_NAME' < $DIR/pull-request.yaml > $DIR/.tekton/$IMAGE_NAME-pull-request.yaml
   if [ "$UBI" == "7" ]; then
       # Earlier microdnf doesn't support install_weak_deps.
       sed -i "s/--setopt=install_weak_deps=0 //" $DIR/$IMAGE_NAME/Dockerfile
@@ -98,7 +97,7 @@ echo "Generating for UBI8 / J17"
 export JAVA=17
 export JAVA_PACKAGE=$JAVA
 export UBI=8
-export UBI_IMAGE=$(cat Dockerfile.ubi8)
+export UBI_IMAGE=$(cat Dockerfile.ubi8 | grep FROM)
 generate
 
 echo
@@ -106,5 +105,5 @@ echo "Generating for UBI7 / J7"
 export JAVA=7
 export JAVA_PACKAGE=1.7.0
 export UBI=7
-export UBI_IMAGE=$(cat Dockerfile.ubi7)
+export UBI_IMAGE=$(cat Dockerfile.ubi7 | grep FROM)
 generate

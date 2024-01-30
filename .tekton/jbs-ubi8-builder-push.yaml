@@ -1,9 +1,9 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: builder-definitions-jvm-hacbs-ubi8-builder-on-pull-request
+  name: builder-definitions-jvm-jbs-ubi8-builder-push
   annotations:
-    pipelinesascode.tekton.dev/on-event: "[pull_request]"
+    pipelinesascode.tekton.dev/on-event: "[push]"
     pipelinesascode.tekton.dev/on-target-branch: "[main]"
     pipelinesascode.tekton.dev/max-keep-runs: "2"
 spec:
@@ -13,9 +13,9 @@ spec:
     - name: revision
       value: "{{revision}}"
     - name: output-image
-      value: "quay.io/redhat-appstudio/pull-request-builds:jbs-ubi8-builder-{{revision}}"
+      value: 'quay.io/redhat-appstudio/jbs-ubi8-builder:{{revision}}'
     - name: dockerfile
-      value: hacbs-ubi8-builder/Dockerfile
+      value: jbs-ubi8-builder/Dockerfile
   pipelineRef:
     name: docker-build
     bundle: quay.io/redhat-appstudio-tekton-catalog/pipeline-core-services-docker-build:latest

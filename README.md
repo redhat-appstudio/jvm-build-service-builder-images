@@ -4,5 +4,5 @@ This repo contains the builder images used to rebuild JVM based dependencies buy
 
 At present this consists of two images:
 
- * hacbs-ubi7-builder
- * hacbs-ubi8-builder
+ * jbs-ubi7-builder
+ * jbs-ubi8-builder
