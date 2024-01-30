@@ -198,7 +198,7 @@ RUN set -o errexit -o nounset \
 LABEL \
     io.k8s.description="HACBS builder image for building Java components." \
     io.k8s.display-name="HACBS BuilderImage" \
-    io.openshift.tags="builder,java,hacbs" \
+    io.openshift.tags="builder,java,jbs" \
     maintainer="Stuart Douglas <sdouglas@redhat.com>"
 
 # Clear package manager metadata
