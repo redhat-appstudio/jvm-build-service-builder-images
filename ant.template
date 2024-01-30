@@ -5,9 +5,9 @@
     && echo "Checking download hash $ANT_VERSION" \
     && echo "$ANT_DOWNLOAD_SHA256 *ant.zip" | sha256sum --check - \
     && echo "Installing Ant $ANT_VERSION" \
-    && unzip ant.zip \
+    && unzip -q ant.zip \
     && rm ant.zip \
     && mv "apache-ant-$ANT_VERSION" "/opt/ant/$ANT_VERSION/" \
     && export ANT_HOME=/opt/ant/$ANT_VERSION \
     && cd $ANT_HOME \
-    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do $ANT_HOME/bin/ant -f fetch.xml -Ddest=system $i; done
+    && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do echo "Processing $i" ; $ANT_HOME/bin/ant -S -f fetch.xml -Ddest=system $i; done \
