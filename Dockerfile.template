@@ -33,27 +33,6 @@ RUN if [ "$UBI" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-
     && rpm -q git-lfs ; \
     fi
 
-RUN if [ "$UBI" = "8" ] ; then set -o errexit -o nounset \
-    && echo "Downloading Gradle Manipulator" \
-    && wget --no-verbose --output-document=cli.jar "https://repo1.maven.org/maven2/org/jboss/gm/cli/${GRADLE_MANIPULATOR_VERSION}/cli-${GRADLE_MANIPULATOR_VERSION}.jar" \
-    && wget --no-verbose --output-document=analyzer-init.gradle "https://repo1.maven.org/maven2/org/jboss/gm/analyzer/${GRADLE_MANIPULATOR_VERSION}/analyzer-${GRADLE_MANIPULATOR_VERSION}-init.gradle" \
-    \
-    && echo "Checking cli.jar download hash" \
-    && echo "${CLI_JAR_SHA} *cli.jar" | sha256sum --check - \
-    \
-    && echo "Checking analyzer-init.gradle download hash" \
-    && echo "${ANALYZER_INIT_SHA} *analyzer-init.gradle" | sha256sum --check - \
-    \
-    && echo "Installing Gradle Manipulator" \
-    && mkdir "${GRADLE_MANIPULATOR_HOME}" \
-    && mv cli.jar analyzer-init.gradle "${GRADLE_MANIPULATOR_HOME}/" \
-    && mkdir "${GRADLE_MANIPULATOR_HOME}/bin" \
-    && echo -e "#!/bin/sh\n\nset -eu\nARGS=\"-l \${GRADLE_HOME}\"\njava -jar ${GRADLE_MANIPULATOR_HOME}/cli.jar \"\${ARGS}\" --init-script=${GRADLE_MANIPULATOR_HOME}/analyzer-init.gradle \$@" > ${GRADLE_MANIPULATOR_HOME}/bin/gradle-manipulator \
-    && chmod 755 ${GRADLE_MANIPULATOR_HOME}/bin/gradle-manipulator \
-    && ln --symbolic "${GRADLE_MANIPULATOR_HOME}/bin/gradle-manipulator" /usr/bin/gradle-manipulator ; \
-    #we test out gradle manipulator as part of the gradle installation
-    fi
-
 RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
     && mkdir /opt/sbt \
@@ -68,7 +47,7 @@ LABEL \
     maintainer="Stuart Douglas <sdouglas@redhat.com>"
 
 # Clear package manager metadata
-RUN microdnf clean all && [ ! -d /var/cache/yum ] || rm -rf /var/cache/yum && mkdir /project && chown 185:185 /project
+RUN rm -rf "/var/cache/yum" "/var/lib/rpm" "/var/lib/dnf" && mkdir /project && chown 185:185 /project
 # Define the user
 USER 185
 # Define the working directory
