@@ -33,27 +33,6 @@ RUN if [ "7" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY
     && rpm -q git-lfs ; \
     fi
 
-RUN if [ "7" = "8" ] ; then set -o errexit -o nounset \
-    && echo "Downloading Gradle Manipulator" \
-    && wget --no-verbose --output-document=cli.jar "https://repo1.maven.org/maven2/org/jboss/gm/cli/3.16/cli-3.16.jar" \
-    && wget --no-verbose --output-document=analyzer-init.gradle "https://repo1.maven.org/maven2/org/jboss/gm/analyzer/3.16/analyzer-3.16-init.gradle" \
-    \
-    && echo "Checking cli.jar download hash" \
-    && echo "555d10b7a94fbb5cee488a79276693a4b29ba61ec8144ef56fd8189fe7e5a83e *cli.jar" | sha256sum --check - \
-    \
-    && echo "Checking analyzer-init.gradle download hash" \
-    && echo "6d2ef2f1eb9d75bd8e070a819e633f5e59ae1d63147e9e7fadc69902790634a1 *analyzer-init.gradle" | sha256sum --check - \
-    \
-    && echo "Installing Gradle Manipulator" \
-    && mkdir "/usr/share/gradle-manipulator" \
-    && mv cli.jar analyzer-init.gradle "/usr/share/gradle-manipulator/" \
-    && mkdir "/usr/share/gradle-manipulator/bin" \
-    && echo -e "#!/bin/sh\n\nset -eu\nARGS=\"-l \${GRADLE_HOME}\"\njava -jar /usr/share/gradle-manipulator/cli.jar \"\${ARGS}\" --init-script=/usr/share/gradle-manipulator/analyzer-init.gradle \$@" > /usr/share/gradle-manipulator/bin/gradle-manipulator \
-    && chmod 755 /usr/share/gradle-manipulator/bin/gradle-manipulator \
-    && ln --symbolic "/usr/share/gradle-manipulator/bin/gradle-manipulator" /usr/bin/gradle-manipulator ; \
-    #we test out gradle manipulator as part of the gradle installation
-    fi
-
 RUN set -o errexit -o nounset \
     && mkdir /opt/gradle \
     && mkdir /opt/sbt \
@@ -101,7 +80,7 @@ LABEL \
     maintainer="Stuart Douglas <sdouglas@redhat.com>"
 
 # Clear package manager metadata
-RUN microdnf clean all && [ ! -d /var/cache/yum ] || rm -rf /var/cache/yum && mkdir /project && chown 185:185 /project
+RUN rm -rf "/var/cache/yum" "/var/lib/rpm" "/var/lib/dnf" && mkdir /project && chown 185:185 /project
 # Define the user
 USER 185
 # Define the working directory
