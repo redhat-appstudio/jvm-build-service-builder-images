@@ -6,7 +6,6 @@ ENV \
     LC_ALL="en_US.UTF-8" \
     APP_HOME="/root" \
     MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
-    GRADLE_OPTS="-Dorg.gradle.daemon=false" \
     HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     JAVA_HOME="/usr/lib/jvm/java-17" \
