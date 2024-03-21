@@ -24,12 +24,7 @@ RUN if [ "7" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY
     && rpm -K ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rpm -ivh ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rm ninja-build-1.8.2-1.el8.x86_64.rpm \
-    && rpm -q ninja-build \
-    && wget --no-verbose https://vault.centos.org/centos/8/AppStream/x86_64/os/Packages/git-lfs-2.11.0-2.el8.x86_64.rpm \
-    && rpm -K git-lfs-2.11.0-2.el8.x86_64.rpm \
-    && rpm -ivh git-lfs-2.11.0-2.el8.x86_64.rpm \
-    && rm git-lfs-2.11.0-2.el8.x86_64.rpm \
-    && rpm -q git-lfs ; \
+    && rpm -q ninja-build ; \
     fi
 
 RUN set -o errexit -o nounset \
