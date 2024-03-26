@@ -14,7 +14,6 @@ ENV \
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
 RUN microdnf --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel shadow-utils tar unzip vim-filesystem wget which zlib-devel \
-    && microdnf clean all \
     && rpm -q apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel shadow-utils tar unzip vim-filesystem wget which zlib-devel
 
 RUN if [ "7" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official \
@@ -28,10 +27,14 @@ RUN if [ "7" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY
     fi
 
 RUN set -o errexit -o nounset \
+    # Using rm rather than microdnf clean to clear package manager metadata
+    && rm -rf "/var/cache/yum" "/var/lib/rpm" "/var/lib/dnf" \
+    && mkdir /project \
     && mkdir /opt/gradle \
     && mkdir /opt/sbt \
     && mkdir /opt/ant \
     && mkdir /opt/maven \
+    && chown 185:185 /project \
     \
     \
     && echo "Downloading Ant 1.9.16" \
@@ -73,8 +76,6 @@ LABEL \
     io.openshift.tags="builder,java,jbs" \
     maintainer="Stuart Douglas <sdouglas@redhat.com>"
 
-# Clear package manager metadata
-RUN rm -rf "/var/cache/yum" "/var/lib/rpm" "/var/lib/dnf" && mkdir /project && chown 185:185 /project
 # Define the user
 USER 185
 # Define the working directory
