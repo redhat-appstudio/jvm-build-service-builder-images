@@ -61,6 +61,16 @@ RUN set -o errexit -o nounset \
     && export SBT_HOME=/opt/sbt/1.8.0 \
     \
     \
+    && echo "Downloading Gradle 8.6" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.6-bin.zip" \
+    && echo "Checking download hash 8.6" \
+    && echo "9631d53cf3e74bfa726893aee1f8994fee4e060c401335946dba2156f440f24c *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 8.6" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-8.6" "/opt/gradle/8.6/" \
+    \
+    \
     && echo "Downloading Gradle 8.4" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.4-bin.zip" \
     && echo "Checking download hash 8.4" \
@@ -91,16 +101,6 @@ RUN set -o errexit -o nounset \
     && mv "gradle-8.0.2" "/opt/gradle/8.0.2/" \
     \
     \
-    && echo "Downloading Gradle 7.4.2" \
-    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.4.2-bin.zip" \
-    && echo "Checking download hash 7.4.2" \
-    && echo "29e49b10984e585d8118b7d0bc452f944e386458df27371b49b4ac1dec4b7fda *gradle.zip" | sha256sum --check - \
-    && echo "Installing Gradle 7.4.2" \
-    && unzip -q gradle.zip \
-    && rm gradle.zip \
-    && mv "gradle-7.4.2" "/opt/gradle/7.4.2/" \
-    \
-    \
     && echo "Downloading Gradle 7.6.3" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.6.3-bin.zip" \
     && echo "Checking download hash 7.6.3" \
@@ -121,14 +121,54 @@ RUN set -o errexit -o nounset \
     && mv "gradle-7.5.1" "/opt/gradle/7.5.1/" \
     \
     \
-    && echo "Downloading Gradle 6.9.2" \
-    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-6.9.2-bin.zip" \
-    && echo "Checking download hash 6.9.2" \
-    && echo "8b356fd8702d5ffa2e066ed0be45a023a779bba4dd1a68fd11bc2a6bdc981e8f *gradle.zip" | sha256sum --check - \
-    && echo "Installing Gradle 6.9.2" \
+    && echo "Downloading Gradle 7.4.2" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.4.2-bin.zip" \
+    && echo "Checking download hash 7.4.2" \
+    && echo "29e49b10984e585d8118b7d0bc452f944e386458df27371b49b4ac1dec4b7fda *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 7.4.2" \
     && unzip -q gradle.zip \
     && rm gradle.zip \
-    && mv "gradle-6.9.2" "/opt/gradle/6.9.2/" \
+    && mv "gradle-7.4.2" "/opt/gradle/7.4.2/" \
+    \
+    \
+    && echo "Downloading Gradle 7.3.3" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-7.3.3-bin.zip" \
+    && echo "Checking download hash 7.3.3" \
+    && echo "b586e04868a22fd817c8971330fec37e298f3242eb85c374181b12d637f80302 *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 7.3.3" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-7.3.3" "/opt/gradle/7.3.3/" \
+    \
+    \
+    && echo "Downloading Gradle 6.9.4" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-6.9.4-bin.zip" \
+    && echo "Checking download hash 6.9.4" \
+    && echo "3e240228538de9f18772a574e99a0ba959e83d6ef351014381acd9631781389a *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 6.9.4" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-6.9.4" "/opt/gradle/6.9.4/" \
+    \
+    \
+    && echo "Downloading Gradle 6.4.1" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-6.4.1-bin.zip" \
+    && echo "Checking download hash 6.4.1" \
+    && echo "e58cdff0cee6d9b422dcd08ebeb3177bc44eaa09bd9a2e838ff74c408fe1cbcd *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 6.4.1" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-6.4.1" "/opt/gradle/6.4.1/" \
+    \
+    \
+    && echo "Downloading Gradle 6.2.2" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-6.2.2-bin.zip" \
+    && echo "Checking download hash 6.2.2" \
+    && echo "0f6ba231b986276d8221d7a870b4d98e0df76e6daf1f42e7c0baec5032fb7d17 *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 6.2.2" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-6.2.2" "/opt/gradle/6.2.2/" \
     \
     \
     && echo "Downloading Gradle 5.6.4" \
@@ -139,6 +179,16 @@ RUN set -o errexit -o nounset \
     && unzip -q gradle.zip \
     && rm gradle.zip \
     && mv "gradle-5.6.4" "/opt/gradle/5.6.4/" \
+    \
+    \
+    && echo "Downloading Gradle 5.3.1" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-5.3.1-bin.zip" \
+    && echo "Checking download hash 5.3.1" \
+    && echo "1c59a17a054e9c82f0dd881871c9646e943ec4c71dd52ebc6137d17f82337436 *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 5.3.1" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-5.3.1" "/opt/gradle/5.3.1/" \
     \
     \
     && echo "Downloading Gradle 4.10.3" \
