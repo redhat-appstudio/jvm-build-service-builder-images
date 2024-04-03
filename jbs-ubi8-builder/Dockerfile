@@ -61,6 +61,16 @@ RUN set -o errexit -o nounset \
     && export SBT_HOME=/opt/sbt/1.8.0 \
     \
     \
+    && echo "Downloading Gradle 8.7" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.7-bin.zip" \
+    && echo "Checking download hash 8.7" \
+    && echo "544c35d6bd849ae8a5ed0bcea39ba677dc40f49df7d1835561582da2009b961d *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 8.7" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-8.7" "/opt/gradle/8.7/" \
+    \
+    \
     && echo "Downloading Gradle 8.6" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.6-bin.zip" \
     && echo "Checking download hash 8.6" \
@@ -171,6 +181,16 @@ RUN set -o errexit -o nounset \
     && mv "gradle-6.2.2" "/opt/gradle/6.2.2/" \
     \
     \
+    && echo "Downloading Gradle 6.0.1" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-6.0.1-bin.zip" \
+    && echo "Checking download hash 6.0.1" \
+    && echo "d364b7098b9f2e58579a3603dc0a12a1991353ac58ed339316e6762b21efba44 *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 6.0.1" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-6.0.1" "/opt/gradle/6.0.1/" \
+    \
+    \
     && echo "Downloading Gradle 5.6.4" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-5.6.4-bin.zip" \
     && echo "Checking download hash 5.6.4" \
@@ -189,6 +209,16 @@ RUN set -o errexit -o nounset \
     && unzip -q gradle.zip \
     && rm gradle.zip \
     && mv "gradle-5.3.1" "/opt/gradle/5.3.1/" \
+    \
+    \
+    && echo "Downloading Gradle 5.0" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-5.0-bin.zip" \
+    && echo "Checking download hash 5.0" \
+    && echo "6157ac9f3410bc63644625b3b3e9e96c963afd7910ae0697792db57813ee79a6 *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 5.0" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-5.0" "/opt/gradle/5.0/" \
     \
     \
     && echo "Downloading Gradle 4.10.3" \
