@@ -16,14 +16,20 @@ ENV PATH="$JAVA_HOME/bin:$PATH"
 RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y ${UBI_PKGS} \
     && rpm -q ${UBI_PKGS}
 
-RUN if [ "$UBI" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official \
+RUN if [ "$UBI" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8 \
     && rpm -q gpg-pubkey-8483c65d-5ccc5b19 \
     # XXX: RHEL 8 does not have ninja-build, so grabbing from CentOS 8
     && wget --no-verbose https://vault.centos.org/centos/8/PowerTools/x86_64/os/Packages/ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rpm -K ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rpm -ivh ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rm ninja-build-1.8.2-1.el8.x86_64.rpm \
-    && rpm -q ninja-build ; \
+    && rpm -q ninja-build \
+    # XXX: RHEL 8 does not have OpenJDK 22, so grabbing from Fedora
+    && wget --no-verbose https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
+    && rpm -K java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
+    && rpm -ivh java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
+    && rm java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
+    && rpm -q java-latest-openjdk-devel ; \
     fi
 
 RUN set -o errexit -o nounset \
