@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal:8.10-896@sha256:f729a7f5685ea823e87ffd68aff988f2b8ff8d52126ade4e6de7c68088f28ebd
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.10-896.1716497715@sha256:9e458f41ff8868ceae00608a6fff35b45fd8bbe967bf8655e5ab08da5964f4d0
 USER root
 ENV \
     LANG="en_US.UTF-8" \
