@@ -32,6 +32,10 @@ RUN if [ "8" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY
     && rpm -q java-latest-openjdk-devel ; \
     fi
 
+ADD https://github.com/oras-project/oras/releases/download/v1.2.0/oras_1.2.0_linux_amd64.tar.gz /tmp
+ADD https://raw.githubusercontent.com/konflux-ci/build-trusted-artifacts/main/oras_opts.sh https://raw.githubusercontent.com/konflux-ci/build-trusted-artifacts/main/use-oci.sh https://raw.githubusercontent.com/konflux-ci/build-trusted-artifacts/main/select-oci-auth.sh https://raw.githubusercontent.com/konflux-ci/build-trusted-artifacts/main/create-oci.sh /usr/bin
+RUN tar -x -C /usr/bin -f /tmp/oras_1.2.0_linux_amd64.tar.gz && rm -f /usr/bin/LICENSE && chmod uog+x /usr/bin/oras_opts.sh /usr/bin/select-oci-auth.sh /usr/bin/create-oci.sh /usr/bin/use-oci.sh
+
 RUN set -o errexit -o nounset \
     # Using rm rather than microdnf clean to clear package manager metadata
     && rm -rf "/var/cache/yum" "/var/lib/rpm" "/var/lib/dnf" \
