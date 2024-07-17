@@ -70,6 +70,7 @@ generate () {
 export MAVEN_3_8_8=aa7d431c07714c410e53502b630f91fc22d2664d5974a413471a2bd4fca9c31f98fbc397d613b7c3e31d3615a9f18487867975b1332462baf7d6ca58ef3628f9
 export MAVEN_3_9_5=ca59380b839c6bea8f464a08bb7873a1cab91007b95876ba9ed8a9a2b03ceac893e661d218ba3d4af3ccf46d26600fc4c59fccabba9d7b2cc4adcd8aecc1df2a
 
+export GRADLE_8_9=d725d707bfabd4dfdc958c624003b3c80accc03f7037b5122c4b1d0ef15cecab
 export GRADLE_8_7=544c35d6bd849ae8a5ed0bcea39ba677dc40f49df7d1835561582da2009b961d
 export GRADLE_8_6=9631d53cf3e74bfa726893aee1f8994fee4e060c401335946dba2156f440f24c
 export GRADLE_8_4=3e1af3ae886920c3ac87f7a91f816c0c7c436f276a6eefdb3da152100fef72ae
@@ -94,8 +95,8 @@ export SBT_1_8_0=fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae80589
 export ANT_1_9_16=a815d3f323efa30db3451cc7c6d111ef343bbe2738e23161dbee1cbbeecf5b9a
 export ANT_1_10_13=800238184231f8002210fd0c75681bc20ce12f527c9b1dcb95fc8a33803bfce1
 
-export UBI8_PKGS="apr-devel autoconf automake bc buildah bzip2-devel cmake diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel perl-Digest-SHA podman shadow-utils tar tzdata-java unzip vim-filesystem wget which zip zlib-devel"
-export UBI7_PKGS="apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel perl-Digest-SHA shadow-utils tar unzip vim-filesystem wget which zip zlib-devel"
+export UBI8_PKGS="apr-devel autoconf automake bc buildah bzip2-devel cmake curl diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel perl-Digest-SHA podman shadow-utils tar tzdata-java unzip vim-minimal wget which zip zlib-devel"
+export UBI7_PKGS="apr-devel autoconf automake bc curl diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel perl-Digest-SHA shadow-utils tar unzip vim-minimal wget which zip zlib-devel"
 
 echo "Generating for UBI8 / J17"
 export JAVA=17
