@@ -67,6 +67,16 @@ RUN set -o errexit -o nounset \
     && export SBT_HOME=/opt/sbt/1.8.0 \
     \
     \
+    && echo "Downloading Gradle 8.9" \
+    && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.9-bin.zip" \
+    && echo "Checking download hash 8.9" \
+    && echo "d725d707bfabd4dfdc958c624003b3c80accc03f7037b5122c4b1d0ef15cecab *gradle.zip" | sha256sum --check - \
+    && echo "Installing Gradle 8.9" \
+    && unzip -q gradle.zip \
+    && rm gradle.zip \
+    && mv "gradle-8.9" "/opt/gradle/8.9/" \
+    \
+    \
     && echo "Downloading Gradle 8.7" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.7-bin.zip" \
     && echo "Checking download hash 8.7" \
