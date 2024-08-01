@@ -14,7 +14,7 @@ metadata:
     appstudio.openshift.io/component: ubi8
     pipelines.appstudio.openshift.io/type: build
   name: ubi8-on-pull-request
-  namespace: rhtap-build-tenant
+  namespace: konflux-jbs-pnc
 spec:
   params:
   - name: dockerfile
@@ -24,7 +24,7 @@ spec:
   - name: image-expires-after
     value: 5d
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhtap-build-tenant/jvm-build-service-builder-images/ubi8:on-pr-{{revision}}
+    value: quay.io/redhat-user-workloads/konflux-jbs-pnc/jvm-build-service-builder-images/ubi8:on-pr-{{revision}}
   - name: path-context
     value: .
   - name: revision

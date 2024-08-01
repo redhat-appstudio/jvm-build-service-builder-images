@@ -13,7 +13,7 @@ metadata:
     appstudio.openshift.io/component: ubi7
     pipelines.appstudio.openshift.io/type: build
   name: ubi7-on-push
-  namespace: rhtap-build-tenant
+  namespace: konflux-jbs-pnc-tenant
 spec:
   params:
   - name: dockerfile
@@ -21,7 +21,7 @@ spec:
   - name: git-url
     value: '{{source_url}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhtap-build-tenant/jvm-build-service-builder-images/ubi7:{{revision}}
+    value: quay.io/redhat-user-workloads/konflux-jbs-pnc-tenant/jvm-build-service-builder-images/ubi7:{{revision}}
   - name: path-context
     value: .
   - name: revision
