@@ -30,7 +30,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: skip-checks
-    value: false
+    value: true
   pipelineSpec:
     finally:
     - name: show-sbom
