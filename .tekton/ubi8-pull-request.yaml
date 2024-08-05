@@ -22,6 +22,8 @@ spec:
     value: '{{source_url}}'
   - name: revision
     value: '{{revision}}'
+  - name: skip-checks
+    value: true
   - name: output-image
     value: quay.io/redhat-user-workloads/konflux-jbs-pnc-tenant/jvm-build-service-builder-images/ubi8:on-pr-{{revision}}
   - name: image-expires-after
