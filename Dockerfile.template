@@ -25,10 +25,10 @@ RUN if [ "$UBI" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-
     && rm ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rpm -q ninja-build \
     # XXX: RHEL 8 does not have OpenJDK 22, so grabbing from Fedora
-    && wget --no-verbose https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
-    && rpm -K java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
-    && rpm -ivh java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
-    && rm java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
+    && wget --no-verbose https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-devel-22.0.2.0.9-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-22.0.2.0.9-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-headless-22.0.2.0.9-1.rolling.el8.x86_64.rpm \
+    && rpm -K java-latest-openjdk-devel-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.2.0.9-1.rolling.el8.x86_64.rpm \
+    && rpm -ivh java-latest-openjdk-devel-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.2.0.9-1.rolling.el8.x86_64.rpm \
+    && rm java-latest-openjdk-devel-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.2.0.9-1.rolling.el8.x86_64.rpm \
     && rpm -q java-latest-openjdk-devel ; \
     fi
 

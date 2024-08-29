@@ -13,8 +13,8 @@ ENV \
     UBI=7
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
-RUN microdnf --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel perl-Digest-SHA shadow-utils tar unzip vim-filesystem wget which zip zlib-devel \
-    && rpm -q apr-devel autoconf automake bc diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel perl-Digest-SHA shadow-utils tar unzip vim-filesystem wget which zip zlib-devel
+RUN microdnf --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc curl diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel perl-Digest-SHA shadow-utils tar unzip vim-minimal wget which zip zlib-devel \
+    && rpm -q apr-devel autoconf automake bc curl diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel perl-Digest-SHA shadow-utils tar unzip vim-minimal wget which zip zlib-devel
 
 RUN if [ "7" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8 \
     && rpm -q gpg-pubkey-8483c65d-5ccc5b19 \
@@ -25,10 +25,10 @@ RUN if [ "7" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY
     && rm ninja-build-1.8.2-1.el8.x86_64.rpm \
     && rpm -q ninja-build \
     # XXX: RHEL 8 does not have OpenJDK 22, so grabbing from Fedora
-    && wget --no-verbose https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
-    && rpm -K java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
-    && rpm -ivh java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
-    && rm java-latest-openjdk-devel-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.1.0.8-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.1.0.8-1.rolling.el8.x86_64.rpm \
+    && wget --no-verbose https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-devel-22.0.2.0.9-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-22.0.2.0.9-1.rolling.el8.x86_64.rpm https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/j/java-latest-openjdk-headless-22.0.2.0.9-1.rolling.el8.x86_64.rpm \
+    && rpm -K java-latest-openjdk-devel-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.2.0.9-1.rolling.el8.x86_64.rpm \
+    && rpm -ivh java-latest-openjdk-devel-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.2.0.9-1.rolling.el8.x86_64.rpm \
+    && rm java-latest-openjdk-devel-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-22.0.2.0.9-1.rolling.el8.x86_64.rpm java-latest-openjdk-headless-22.0.2.0.9-1.rolling.el8.x86_64.rpm \
     && rpm -q java-latest-openjdk-devel ; \
     fi
 
