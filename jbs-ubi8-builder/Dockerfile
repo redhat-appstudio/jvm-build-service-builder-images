@@ -43,15 +43,15 @@ RUN set -o errexit -o nounset \
     && chown 185:185 /project \
     \
     \
-    && echo "Downloading Ant 1.10.13" \
-    && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org/ant/binaries/apache-ant-1.10.13-bin.zip" \
-    && echo "Checking download hash 1.10.13" \
-    && echo "800238184231f8002210fd0c75681bc20ce12f527c9b1dcb95fc8a33803bfce1 *ant.zip" | sha256sum --check - \
-    && echo "Installing Ant 1.10.13" \
+    && echo "Downloading Ant 1.10.15" \
+    && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.15-bin.zip" \
+    && echo "Checking download hash 1.10.15" \
+    && echo "1de7facbc9874fa4e5a2f045d5c659f64e0b89318c1dbc8acc6aae4595c4ffaf90a7b1ffb57f958dd08d6e086d3fff07aa90e50c77342a0aa5c9b4c36bff03a9 *ant.zip" | sha512sum --check - \
+    && echo "Installing Ant 1.10.15" \
     && unzip -q ant.zip \
     && rm ant.zip \
-    && mv "apache-ant-1.10.13" "/opt/ant/1.10.13/" \
-    && export ANT_HOME=/opt/ant/1.10.13 \
+    && mv "apache-ant-1.10.15" "/opt/ant/1.10.15/" \
+    && export ANT_HOME=/opt/ant/1.10.15 \
     && cd $ANT_HOME \
     && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do echo "Processing $i" ; $ANT_HOME/bin/ant -S -f fetch.xml -Ddest=system $i; done \
     \
