@@ -44,7 +44,7 @@ RUN set -o errexit -o nounset \
     \
     \
     && echo "Downloading Ant 1.10.15" \
-    && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.15-bin.zip" \
+    && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org/ant/binaries/apache-ant-1.10.15-bin.zip" \
     && echo "Checking download hash 1.10.15" \
     && echo "1de7facbc9874fa4e5a2f045d5c659f64e0b89318c1dbc8acc6aae4595c4ffaf90a7b1ffb57f958dd08d6e086d3fff07aa90e50c77342a0aa5c9b4c36bff03a9 *ant.zip" | sha512sum --check - \
     && echo "Installing Ant 1.10.15" \

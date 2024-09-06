@@ -46,7 +46,7 @@ RUN set -o errexit -o nounset \
     && echo "Downloading Ant 1.9.16" \
     && wget --no-verbose --output-document=ant.zip "https://dlcdn.apache.org/ant/binaries/apache-ant-1.9.16-bin.zip" \
     && echo "Checking download hash 1.9.16" \
-    && echo "a815d3f323efa30db3451cc7c6d111ef343bbe2738e23161dbee1cbbeecf5b9a *ant.zip" | sha256sum --check - \
+    && echo "b9324cffeb5b113fa289126db1408b9a0125757b598d763f076fc5deec97fb43f27979974cadcac79b6573d84dcb2d1d5bf59b7972fb2abe5ed3d9fed445b04e *ant.zip" | sha512sum --check - \
     && echo "Installing Ant 1.9.16" \
     && unzip -q ant.zip \
     && rm ant.zip \

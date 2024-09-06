@@ -16,8 +16,8 @@ generate () {
   for i in ${ant//;/ }
   do
       export ANT_VERSION=$i
-      export ANT_DOWNLOAD_SHA256=$(name=ANT_${ANT_VERSION//./_} && echo ${!name})
-      res=`envsubst '$ANT_DOWNLOAD_SHA256,$ANT_VERSION' < $DIR/ant.template`
+      export ANT_DOWNLOAD_SHA512=$(name=ANT_${ANT_VERSION//./_} && echo ${!name})
+      res=`envsubst '$ANT_DOWNLOAD_SHA512,$ANT_VERSION' < $DIR/ant.template`
       export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"$'\n'
   done
 
@@ -59,8 +59,6 @@ generate () {
   fi
 
   envsubst '$IMAGE_NAME,$MAVEN_VERSION,$MAVEN_SHA,$GRADLE_VERSION,$GRADLE_SHA,$GRADLE_MANIPULATOR_VERSION,$GRADLE_MANIPULATOR_HOME,$CLI_JAR_SHA,$ANALYZER_INIT_SHA,$TOOL_STRING,$JAVA_PACKAGE,$UBI,$UBI_PKGS,$UBI_IMAGE' < $DIR/Dockerfile.template > $DIR/$IMAGE_NAME/Dockerfile
-  envsubst '$IMAGE_NAME' < $DIR/push.yaml > $DIR/.tekton/$IMAGE_NAME-push.yaml
-  envsubst '$IMAGE_NAME' < $DIR/pull-request.yaml > $DIR/.tekton/$IMAGE_NAME-pull-request.yaml
   if [ "$UBI" == "7" ]; then
       # Earlier microdnf doesn't support install_weak_deps.
       sed -i "s/--setopt=install_weak_deps=0 //" $DIR/$IMAGE_NAME/Dockerfile
@@ -92,8 +90,8 @@ export GRADLE_4_10_3=8626cbf206b4e201ade7b87779090690447054bc93f052954c78480fa6e
 
 export SBT_1_8_0=fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae805897
 
-export ANT_1_9_16=a815d3f323efa30db3451cc7c6d111ef343bbe2738e23161dbee1cbbeecf5b9a
-export ANT_1_10_13=800238184231f8002210fd0c75681bc20ce12f527c9b1dcb95fc8a33803bfce1
+export ANT_1_9_16=b9324cffeb5b113fa289126db1408b9a0125757b598d763f076fc5deec97fb43f27979974cadcac79b6573d84dcb2d1d5bf59b7972fb2abe5ed3d9fed445b04e
+export ANT_1_10_15=1de7facbc9874fa4e5a2f045d5c659f64e0b89318c1dbc8acc6aae4595c4ffaf90a7b1ffb57f958dd08d6e086d3fff07aa90e50c77342a0aa5c9b4c36bff03a9
 
 export UBI8_PKGS="apr-devel autoconf automake bc buildah bzip2-devel cmake curl diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel perl-Digest-SHA podman shadow-utils tar tzdata-java unzip vim-minimal wget which zip zlib-devel"
 export UBI7_PKGS="apr-devel autoconf automake bc curl diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel perl-Digest-SHA shadow-utils tar unzip vim-minimal wget which zip zlib-devel"
