@@ -93,7 +93,7 @@ export SBT_1_8_0=fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae80589
 export ANT_1_9_16=b9324cffeb5b113fa289126db1408b9a0125757b598d763f076fc5deec97fb43f27979974cadcac79b6573d84dcb2d1d5bf59b7972fb2abe5ed3d9fed445b04e
 export ANT_1_10_15=1de7facbc9874fa4e5a2f045d5c659f64e0b89318c1dbc8acc6aae4595c4ffaf90a7b1ffb57f958dd08d6e086d3fff07aa90e50c77342a0aa5c9b4c36bff03a9
 
-export UBI8_PKGS="apr-devel autoconf automake bc buildah bzip2-devel cmake curl diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel perl-Digest-SHA podman shadow-utils tar tzdata-java unzip vim-minimal wget which zip zlib-devel"
+export UBI8_PKGS="apr-devel autoconf automake bc buildah bzip2-devel cmake curl diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel jq libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel perl-Digest-SHA podman shadow-utils tar tzdata-java unzip vim-minimal wget which zip zlib-devel"
 export UBI7_PKGS="apr-devel autoconf automake bc curl diffutils file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 gzip iproute java-1.7.0-openjdk-devel java-1.8.0-openjdk-devel java-11-openjdk-devel libcurl-devel libgcc.i686 libtool lsof make openssl-devel perl-Digest-SHA shadow-utils tar unzip vim-minimal wget which zip zlib-devel"
 
 echo "Generating for UBI8 / J17"

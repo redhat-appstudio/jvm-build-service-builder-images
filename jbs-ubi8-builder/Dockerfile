@@ -5,16 +5,13 @@ ENV \
     LANGUAGE="en_US:en" \
     LC_ALL="en_US.UTF-8" \
     APP_HOME="/root" \
-    MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1" \
     HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
-    JAVA_HOME="/usr/lib/jvm/java-17" \
-    JAVA_VENDOR="openjdk" \
     UBI=8
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
-RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake curl diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel perl-Digest-SHA podman shadow-utils tar tzdata-java unzip vim-minimal wget which zip zlib-devel \
-    && rpm -q apr-devel autoconf automake bc buildah bzip2-devel cmake curl diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel perl-Digest-SHA podman shadow-utils tar tzdata-java unzip vim-minimal wget which zip zlib-devel
+RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y apr-devel autoconf automake bc buildah bzip2-devel cmake curl diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel jq libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel perl-Digest-SHA podman shadow-utils tar tzdata-java unzip vim-minimal wget which zip zlib-devel \
+    && rpm -q apr-devel autoconf automake bc buildah bzip2-devel cmake curl diffutils emacs-filesystem file findutils gcc gcc-c++ git glibc-devel glibc-devel.i686 glibc-langpack-en glibc-static golang gzip hostname iproute java-1.8.0-openjdk-devel java-11-openjdk-devel java-17-openjdk-devel java-21-openjdk-devel jq libcurl-devel libgcc.i686 libstdc++-static libtool lsof make openssl-devel perl-Digest-SHA podman shadow-utils tar tzdata-java unzip vim-minimal wget which zip zlib-devel
 
 RUN if [ "8" = "8" ] ; then rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8 \
     && rpm -q gpg-pubkey-8483c65d-5ccc5b19 \
