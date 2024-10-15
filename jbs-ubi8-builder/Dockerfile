@@ -53,17 +53,6 @@ RUN set -o errexit -o nounset \
     && for i in antunit ivy logging junit xml networking regexp antlr bcel jdepend bsf debugging script javamail jspc; do echo "Processing $i" ; $ANT_HOME/bin/ant -S -f fetch.xml -Ddest=system $i; done \
     \
     \
-    && echo "Downloading SBT 1.8.0" \
-    && wget --no-verbose --output-document=sbt.zip "https://github.com/sbt/sbt/releases/download/v1.8.0/sbt-1.8.0.zip" \
-    && echo "Checking download hash 1.8.0" \
-    && echo "fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae805897 *sbt.zip" | sha256sum --check - \
-    && echo "Installing SBT 1.8.0" \
-    && unzip -q sbt.zip \
-    && rm sbt.zip \
-    && mv "sbt" "/opt/sbt/1.8.0/" \
-    && export SBT_HOME=/opt/sbt/1.8.0 \
-    \
-    \
     && echo "Downloading Gradle 8.9" \
     && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-8.9-bin.zip" \
     && echo "Checking download hash 8.9" \
@@ -251,6 +240,9 @@ RUN set -o errexit -o nounset \
     && echo "Installing Maven 3.8.8" \
     && unzip -q maven.zip \
     && rm maven.zip \
+    && echo "Adding alt-deploy-maven-extension" \
+    && wget --no-verbose --output-document="apache-maven-3.8.8"/lib/ext/alt-deploy-maven-extension.jar "https://repo1.maven.org/maven2/org/goots/maven/extensions/alt-deploy-maven-extension/1.8/alt-deploy-maven-extension-1.8.jar" \
+    && echo "6818489c1a44a3f119d4a825aa3b084a148f0fab1b9d6601c1430a5dc7a86a06cc56462fcc581206bdf0b6680587ae159a91369a4eba1bfbc5e9f6f9d37cd5a9 apache-maven-3.8.8/lib/ext/alt-deploy-maven-extension.jar" | sha512sum --check - \
     && mv "apache-maven-3.8.8" "/opt/maven/3.8.8/" \
     \
     \
@@ -261,7 +253,21 @@ RUN set -o errexit -o nounset \
     && echo "Installing Maven 3.9.5" \
     && unzip -q maven.zip \
     && rm maven.zip \
+    && echo "Adding alt-deploy-maven-extension" \
+    && wget --no-verbose --output-document="apache-maven-3.9.5"/lib/ext/alt-deploy-maven-extension.jar "https://repo1.maven.org/maven2/org/goots/maven/extensions/alt-deploy-maven-extension/1.8/alt-deploy-maven-extension-1.8.jar" \
+    && echo "6818489c1a44a3f119d4a825aa3b084a148f0fab1b9d6601c1430a5dc7a86a06cc56462fcc581206bdf0b6680587ae159a91369a4eba1bfbc5e9f6f9d37cd5a9 apache-maven-3.9.5/lib/ext/alt-deploy-maven-extension.jar" | sha512sum --check - \
     && mv "apache-maven-3.9.5" "/opt/maven/3.9.5/" \
+    \
+    \
+    && echo "Downloading SBT 1.8.0" \
+    && wget --no-verbose --output-document=sbt.zip "https://github.com/sbt/sbt/releases/download/v1.8.0/sbt-1.8.0.zip" \
+    && echo "Checking download hash 1.8.0" \
+    && echo "fb52ea0bc0761176f3e38923ae5df556fba372895efb98a587f706d1ae805897 *sbt.zip" | sha256sum --check - \
+    && echo "Installing SBT 1.8.0" \
+    && unzip -q sbt.zip \
+    && rm sbt.zip \
+    && mv "sbt" "/opt/sbt/1.8.0/" \
+    && export SBT_HOME=/opt/sbt/1.8.0 \
     && echo "Completed tool installation"
 
 LABEL \
