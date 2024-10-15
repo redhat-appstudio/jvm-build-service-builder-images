@@ -7,4 +7,7 @@
     && echo "Installing Maven $MAVEN_VERSION" \
     && unzip -q maven.zip \
     && rm maven.zip \
+    && echo "Adding alt-deploy-maven-extension" \
+    && wget --no-verbose --output-document="apache-maven-$MAVEN_VERSION"/lib/ext/alt-deploy-maven-extension.jar "https://repo1.maven.org/maven2/org/goots/maven/extensions/alt-deploy-maven-extension/1.8/alt-deploy-maven-extension-1.8.jar" \
+    && echo "$ALT_DEPLOY_1_8 apache-maven-$MAVEN_VERSION/lib/ext/alt-deploy-maven-extension.jar" | sha512sum --check - \
     && mv "apache-maven-$MAVEN_VERSION" "/opt/maven/$MAVEN_VERSION/" \
