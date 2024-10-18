@@ -8,7 +8,6 @@ ENV \
     HOME="/root" \
     NSS_WRAPPER_PASSWD="/etc/passwd" \
     UBI=${UBI}
-ENV PATH="$JAVA_HOME/bin:$PATH"
 
 RUN microdnf --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y ${UBI_PKGS} \
     && rpm -q ${UBI_PKGS}
