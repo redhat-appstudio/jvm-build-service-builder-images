@@ -60,6 +60,9 @@ RUN set -o errexit -o nounset \
     && echo "Installing Maven 3.8.8" \
     && unzip -q maven.zip \
     && rm maven.zip \
+    && echo "Adding alt-deploy-maven-extension" \
+    && wget --no-verbose --output-document="apache-maven-3.8.8"/lib/ext/alt-deploy-maven-extension.jar "https://repo1.maven.org/maven2/org/goots/maven/extensions/alt-deploy-maven-extension/1.8/alt-deploy-maven-extension-1.8.jar" \
+    && echo "6818489c1a44a3f119d4a825aa3b084a148f0fab1b9d6601c1430a5dc7a86a06cc56462fcc581206bdf0b6680587ae159a91369a4eba1bfbc5e9f6f9d37cd5a9 apache-maven-3.8.8/lib/ext/alt-deploy-maven-extension.jar" | sha512sum --check - \
     && mv "apache-maven-3.8.8" "/opt/maven/3.8.8/" \
     \
     \
@@ -70,6 +73,9 @@ RUN set -o errexit -o nounset \
     && echo "Installing Maven 3.9.5" \
     && unzip -q maven.zip \
     && rm maven.zip \
+    && echo "Adding alt-deploy-maven-extension" \
+    && wget --no-verbose --output-document="apache-maven-3.9.5"/lib/ext/alt-deploy-maven-extension.jar "https://repo1.maven.org/maven2/org/goots/maven/extensions/alt-deploy-maven-extension/1.8/alt-deploy-maven-extension-1.8.jar" \
+    && echo "6818489c1a44a3f119d4a825aa3b084a148f0fab1b9d6601c1430a5dc7a86a06cc56462fcc581206bdf0b6680587ae159a91369a4eba1bfbc5e9f6f9d37cd5a9 apache-maven-3.9.5/lib/ext/alt-deploy-maven-extension.jar" | sha512sum --check - \
     && mv "apache-maven-3.9.5" "/opt/maven/3.9.5/" \
     && echo "Completed tool installation"
 

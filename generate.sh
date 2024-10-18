@@ -7,8 +7,6 @@ generate () {
 
   export IMAGE_NAME=jbs-ubi$UBI-builder
   mkdir -p $DIR/$IMAGE_NAME
-  #deal with gradle and sbt and ant
-
   export TOOL_STRING=""
 
   ant=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "ant:.*,?" | cut -d , -f 1 | cut -d : -f 2`
@@ -18,16 +16,6 @@ generate () {
       export ANT_VERSION=$i
       export ANT_DOWNLOAD_SHA512=$(name=ANT_${ANT_VERSION//./_} && echo ${!name})
       res=`envsubst '$ANT_DOWNLOAD_SHA512,$ANT_VERSION' < $DIR/ant.template`
-      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"$'\n'
-  done
-
-  sbt=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "sbt:.*,?" | cut -d , -f 1 | cut -d : -f 2`
-  echo sbt $sbt
-  for i in ${sbt//;/ }
-  do
-      export SBT_VERSION=$i
-      export SBT_DOWNLOAD_SHA256=$(name=SBT_${SBT_VERSION//./_} && echo ${!name})
-      res=`envsubst '$SBT_DOWNLOAD_SHA256,$SBT_VERSION' < $DIR/sbt.template`
       export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"$'\n'
   done
 
@@ -47,7 +35,17 @@ generate () {
   do
       export MAVEN_VERSION=$i
       export MAVEN_DOWNLOAD_SHA512=$(name=MAVEN_${MAVEN_VERSION//./_} && echo ${!name})
-      res=`envsubst '$MAVEN_DOWNLOAD_SHA512,$MAVEN_VERSION' < $DIR/maven.template`
+      res=`envsubst '$ALT_DEPLOY_1_8,$MAVEN_DOWNLOAD_SHA512,$MAVEN_VERSION' < $DIR/maven.template`
+      export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"$'\n'
+  done
+
+  sbt=`yq .spec.builders.ubi$UBI.tag $DIR/image-config.yaml | grep -o -E  "sbt:.*,?" | cut -d , -f 1 | cut -d : -f 2`
+  echo sbt $sbt
+  for i in ${sbt//;/ }
+  do
+      export SBT_VERSION=$i
+      export SBT_DOWNLOAD_SHA256=$(name=SBT_${SBT_VERSION//./_} && echo ${!name})
+      res=`envsubst '$SBT_DOWNLOAD_SHA256,$SBT_VERSION' < $DIR/sbt.template`
       export TOOL_STRING="${TOOL_STRING:+$TOOL_STRING }$res"$'\n'
   done
   export TOOL_STRING="$TOOL_STRING    && echo \"Completed tool installation\""
@@ -67,6 +65,8 @@ generate () {
 
 export MAVEN_3_8_8=aa7d431c07714c410e53502b630f91fc22d2664d5974a413471a2bd4fca9c31f98fbc397d613b7c3e31d3615a9f18487867975b1332462baf7d6ca58ef3628f9
 export MAVEN_3_9_5=ca59380b839c6bea8f464a08bb7873a1cab91007b95876ba9ed8a9a2b03ceac893e661d218ba3d4af3ccf46d26600fc4c59fccabba9d7b2cc4adcd8aecc1df2a
+export ALT_DEPLOY_1_8=6818489c1a44a3f119d4a825aa3b084a148f0fab1b9d6601c1430a5dc7a86a06cc56462fcc581206bdf0b6680587ae159a91369a4eba1bfbc5e9f6f9d37cd5a9
+
 
 export GRADLE_8_9=d725d707bfabd4dfdc958c624003b3c80accc03f7037b5122c4b1d0ef15cecab
 export GRADLE_8_7=544c35d6bd849ae8a5ed0bcea39ba677dc40f49df7d1835561582da2009b961d
