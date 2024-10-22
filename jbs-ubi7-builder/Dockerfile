@@ -79,10 +79,10 @@ RUN set -o errexit -o nounset \
     && echo "Completed tool installation"
 
 LABEL \
-    io.k8s.description="HACBS builder image for building Java components." \
-    io.k8s.display-name="HACBS BuilderImage" \
+    io.k8s.description="Konflux Builder Image for building Java components." \
+    io.k8s.display-name="Konflux Builder Image" \
     io.openshift.tags="builder,java,jbs" \
-    maintainer="Stuart Douglas <sdouglas@redhat.com>"
+    maintainer="Nick Cross <ncross@redhat.com>"
 
 # Define the user
 USER 185
