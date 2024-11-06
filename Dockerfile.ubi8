@@ -1,3 +1,3 @@
 #This file is used to enable renovate to update the digests. It is updated by renovate then substituted into the template.
 
-FROM registry.access.redhat.com/ubi8/ubi-minimal:8.10-1086@sha256:7583ca0ea52001562bd81a961da3f75222209e6192e4e413ee226cff97dbd48c
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.10-1130@sha256:c12e67af6a7e15113d76bc72f10bef2045c026c71ec8b7124c8a075458188a83
