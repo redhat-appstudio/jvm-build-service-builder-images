@@ -421,7 +421,8 @@ spec:
       - name: IMAGE
         value: $(tasks.build-image-index.results.IMAGE_URL)
       - name: ADDITIONAL_TAGS
-        value: ["latest"]
+        value:
+        - latest
       runAfter:
       - build-image-index
       taskRef:
@@ -485,7 +486,8 @@ spec:
       optional: true
     - name: netrc
       optional: true
-  taskRunTemplate: {}
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-ubi7
   workspaces:
   - name: workspace
     volumeClaimTemplate:
